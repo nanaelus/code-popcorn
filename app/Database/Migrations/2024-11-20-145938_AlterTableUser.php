@@ -8,7 +8,7 @@ class AlterTableUser extends Migration
 {
     public function up()
     {
-        $this->forge->addField([
+        $this->forge->addColumn('user',[
             'firstname' => [
                 'type' => 'VARCHAR',
                 'constraint' => '100',
@@ -36,7 +36,7 @@ class AlterTableUser extends Migration
                 'type' => 'INT',
                 'constraint' => '11',
                 'unsigned' => true,
-                'after' => 'city_id'
+                'after' => 'dob'
             ]
         ]);
         $this->forge->addForeignKey('city_id', 'city', 'id');
