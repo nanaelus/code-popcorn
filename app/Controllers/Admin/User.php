@@ -15,15 +15,16 @@ class User extends BaseController
             $users = $um->getPermissions();
             return $this->view("/admin/user/index.php",['users' => $users], true);
         } else {
+            $cities = model("CityModel")->getAllCities();
             $permissions = Model("UserPermissionModel")->getAllPermissions();
             if ($id == "new") {
                 $this->addBreadcrumb('Création d\' un utilisateur','');
-                return $this->view("/admin/user/user",["permissions" => $permissions], true);
+                return $this->view("/admin/user/user",["permissions" => $permissions, 'cities' => $cities], true);
             }
             $utilisateur = $um->getUserById($id);
             if ($utilisateur) {
                 $this->addBreadcrumb('Modification de ' . $utilisateur['username'], '');
-                return $this->view("/admin/user/user", ["utilisateur" => $utilisateur, "permissions" => $permissions ], true);
+                return $this->view("/admin/user/user", ["utilisateur" => $utilisateur, "permissions" => $permissions , 'cities' => $cities], true);
             } else {
                 $this->error("L'ID de l'utilisateur n'existe pas");
                 $this->redirect("/admin/user");

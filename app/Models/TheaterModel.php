@@ -48,9 +48,28 @@ class TheaterModel extends Model
         return $this->findAll();
     }
 
+    public function createTheater($data) {
+        return $this->insert($data);
+    }
+
+    public function updateTheater($id, $data) {
+        return $this->update($id, $data);
+    }
+
+    public function deleteTheater($id) {
+        return $this->delete($id);
+    }
+
+    public function activateTheater($id) {
+        $builder = $this->builder();
+        $builder->set('deleted_at', NULL);
+        $builder->where('id', $id);
+        return $builder->update();
+    }
+
     public function getTheaterById($id) {
         $builder = $this->builder();
-        $builder->select('theater.*, city.name as city_name');
+        $builder->select('theater.*, city.label as city_name');
         $builder->join('city', 'city.id = theater.city_id');
         $builder->where('theater.id', $id);
         return $builder->get()->getRowArray();
@@ -59,7 +78,7 @@ class TheaterModel extends Model
     public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection)
     {
         $builder = $this->builder();
-        $builder->select('theater.*, city.name as city_name');
+        $builder->select('theater.*, city.label as city_name');
         $builder->join('city', 'city.id = theater.city_id', "left");
         // Recherche
         if ($searchValue != null) {
@@ -79,7 +98,7 @@ class TheaterModel extends Model
     public function getTotal()
     {
         $builder = $this->builder();
-        $builder->select('theater.*, city.name as city_name');
+        $builder->select('theater.*, city.label as city_name');
         $builder->join('city', 'city.id = theater.city_id', "left");
         return $builder->countAllResults();
     }
@@ -87,7 +106,7 @@ class TheaterModel extends Model
     public function getFiltered($searchValue)
     {
         $builder = $this->builder();
-        $builder->select('theater.*, city.name as city_name');
+        $builder->select('theater.*, city.label as city_name');
         $builder->join('city', 'city.id = theater.city_id', "left");
         if (!empty($searchValue)) {
             $builder->like('name', $searchValue);

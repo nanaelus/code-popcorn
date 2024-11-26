@@ -19,6 +19,29 @@ class TableUser extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
             ],
+            'firstname' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
+            ],
+            'lastname' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
+            ],
+            'address' => [
+                'type' => 'TEXT',
+            ],
+            'phone' => [
+                'type' => 'VARCHAR',
+                'constraint' => '25',
+            ],
+            'dob' => [
+                'type' => 'DATE',
+            ],
+            'city_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+            ],
             'email' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
@@ -49,6 +72,7 @@ class TableUser extends Migration
 
         $this->forge->addKey('id', true);
         $this->forge->createTable('user');
+        $this->forge->addForeignKey('city_id', 'city', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function down()

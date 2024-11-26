@@ -7,16 +7,18 @@
                         <?= isset($utilisateur) ? "Editer " . $utilisateur['username'] : "Créer un utilisateur" ?>
                     </h4>
                     <?php
-                    if (isset($utilisateur) && $utilisateur['deleted_at'] == null) { ?>
-                        <a title="Désactiver l'utilisateur" href="<?= base_url('admin/user/deactivate/') . $utilisateur['id']; ?>">
-                            <i class="fa-solid fa-xl fa-toggle-on text-success"></i>
-                        </a>
-                    <?php
-                    } else { ?>
-                        <a title="Activer un utilisateur"href="<?= base_url('admin/user/activate/') . $utilisateur['id']; ?>">
-                            <i class="fa-solid fa-toggle-off fa-xl text-danger"></i>
-                        </a>
-                    <?php
+                    if(isset($utilisateur)) {
+                        if (isset($utilisateur) && $utilisateur['deleted_at'] == null) { ?>
+                            <a title="Désactiver l'utilisateur" href="<?= base_url('admin/user/deactivate/') . $utilisateur['id']; ?>">
+                                <i class="fa-solid fa-xl fa-toggle-on text-success"></i>
+                            </a>
+                        <?php
+                        } else {?>
+                            <a title="Activer un utilisateur"href="<?= base_url('admin/user/activate/') . $utilisateur['id']; ?>">
+                                <i class="fa-solid fa-toggle-off fa-xl text-danger"></i>
+                            </a>
+                        <?php
+                        }
                     }
                     ?>
                 </div>
@@ -37,19 +39,49 @@
                         <div class="tab-pane active" id="profil" role="tabpanel" aria-labelledby="profil-tab" tabindex="0">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Pseudo</label>
-                                <input type="text" class="form-control" id="username" placeholder="username" value="<?= isset($utilisateur) ? $utilisateur['username'] : ""; ?>" name="username">
+                                <input type="text" class="form-control" id="username" placeholder="username" value="<?= isset($utilisateur) ? $utilisateur['username'] : ""; ?>" name="username" required>
                             </div>
                             <div class="mb-3">
+                                <label for="firstname" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" id="firstname" placeholder="firstname" value="<?= isset($utilisateur) ? $utilisateur['firstname'] : ""; ?>" name="firstname" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastname" class="form-label">Nom de Famille</label>
+                                <input type="text" class="form-control" id="lastname" placeholder="lastname" value="<?= isset($utilisateur) ? $utilisateur['lastname'] : ""; ?>" name="lastname" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Adresse</label>
+                                <textarea type="text" class="form-control" id="address" placeholder="address" placeholder="<?= isset($utilisateur) ? "" : "Adresse de l'utilisateur"; ?>" name="address" required><?= isset($utilisateur) ? $utilisateur['address'] : ""; ?></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="city_id" class="form-label">Ville</label>
+                                <select name="city_id" class="form-select">
+                                    <option <?= !isset($utilisateur) ? "selected" : ""; ?> disabled>-- Votre Ville --</option>
+                                    <?php foreach($cities as $city) { ?>
+                                        <option value="<?= $city['id']; ?>" <?= isset($utilisateur) && $city['id'] == $utilisateur['city_id'] ? "selected" : ""; ?>><?= $city['name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Numéro de Téléphone</label>
+                                <input type="text" class="form-control" id="phone" placeholder="phone" value="<?= isset($utilisateur) ? $utilisateur['phone'] : ""; ?>" name="phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dob" class="form-label">Date de Naissance</label>
+                                <input type="date" class="form-control" id="dob" placeholder="dob" value="<?= isset($utilisateur) ? $utilisateur['dob'] : ""; ?>" name="dob" required>
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="mail" class="form-label">E-mail</label>
-                                <input type="text" class="form-control" id="mail" placeholder="mail" value="<?= isset($utilisateur) ? $utilisateur['email'] : "" ?>" <?= isset($utilisateur) ? "readonly" : "" ?> >
+                                <input type="text" class="form-control" <?= isset($utilisateur) ? "" : 'name="email"' ; ?> id="mail" placeholder="mail" value="<?= isset($utilisateur) ? $utilisateur['email'] : "" ?>" <?= isset($utilisateur) ? "readonly" : "required" ?>>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Mot de passe</label>
-                                <input type="password" class="form-control" id="password" placeholder="password" value="" name="password">
+                                <input type="password" class="form-control" id="password" placeholder="password" value="" name="password" <?= isset($utilisateur) ? "" : "required"; ?>>
                             </div>
                             <div class="mb-3">
                                 <label for="id_permission" class="form-label">Rôle</label>
-                                <select class="form-select" id="id_permission" name="id_permission">
+                                <select class="form-select" id="id_permission" name="id_permission" required>
                                     <option disabled <?= !isset($utilisateur) ? "selected":""; ?> >Selectionner un role</option>
                                     <?php foreach($permissions as $p): ?>
                                         <option value="<?= $p['id']; ?>" <?= ( isset($utilisateur) && $p['id'] == $utilisateur['id_permission']) ? "selected" : "" ?> >
