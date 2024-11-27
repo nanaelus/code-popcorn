@@ -15,18 +15,21 @@ class TableCategoryMovie extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'name' => [
-                'type' => 'VARCHAR',
-                'constraint' => 50,
+            'movie_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
             ],
-            'slug' => [
-                'type' => 'VARCHAR',
-                'constraint' => 100,
-                'unique' => true,
+            'category_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
             ]
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->createTable('category_movie');
+        $this->forge->addForeignKey('movie_id', 'movie', 'id');
+        $this->forge->addForeignKey('category_id', 'category', 'id');
     }
 
     public function down()

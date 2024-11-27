@@ -36,12 +36,6 @@ class TableMovie extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'category_id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => true,
-                'null' => false,
-            ],
             'rating' => [
                 'type' => 'ENUM',
                 'constraint' => ['Tous Publics', '-12 ans', '-16 ans', '-18 ans'],
@@ -55,10 +49,10 @@ class TableMovie extends Migration
             ],
             'deleted_at' => [
                 'type' => 'DATETIME',
+                "null" => true,
             ]
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('category_id', 'category_movie', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('movie');
     }
 

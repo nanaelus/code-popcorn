@@ -47,4 +47,19 @@ class CityModel extends Model
     public function getAllCities() {
         return $this->findAll();
     }
+
+    public function getCityById($id) {
+        return $this->find($id);
+    }
+
+    public function searchCitiesByName($searchValue, $limit = 10)
+    {
+        // On effectue la requête sur la base de données
+        $builder = $this->db->table('city');
+        $builder->like('label', $searchValue); // On recherche les villes dont le nom contient $searchValue
+        $builder->orLike('zip_code', $searchValue); // On recherche les villes dont le nom contient $searchValue
+        $query = $builder->get();
+
+        return $query->getResultArray(); // Retourne les résultats sous forme de tableau
+    }
 }

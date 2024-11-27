@@ -15,8 +15,8 @@
                     <input type="text" value="<?= isset($theater) ? $theater['phone'] : ""; ?>" name="phone" class="form-control" placeholder="Entrez un numéro de téléphone">
                     <label class="form-label mb-2 mt-2" for="email">Email :</label>
                     <input type="email" value="<?= isset($theater) ? $theater['email'] : ""; ?>" name="email" class="form-control" placeholder="exemple@mail.com">
-                    <label class="form-label mb-2 mt-2" for="city_id">Ville :</label>
-                    <input type="text" class="form-control mb-2" id="cityLabel" name="city_id">
+                    <label class="form-label mb-2 mt-2" for="city_id">Ville <?= isset($theater) ? " actuelle : " . $theater['city_name'] . "."  : "" ;?></label>
+                    <select id="search-city-head" class="form-control me-2" name="city_id"></select>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary"><?= isset($theater) ? "Modifier" : "Créer"; ?></button>
@@ -25,27 +25,3 @@
         </form>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('#cityLabel').autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: "<?= base_url('admin/theater/searchcity'); ?>",
-                    dataType: 'json',
-                    data: {
-                        term: request.term
-                    },
-                    success: function(data) {
-                        response(data.map(function(city) {
-                            return {
-                                label: city.label,
-                                value: city.id
-                            };
-                        }));
-                    }
-                });
-            }
-        });
-    });
-</script>

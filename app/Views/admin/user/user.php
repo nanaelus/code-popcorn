@@ -50,19 +50,6 @@
                                 <input type="text" class="form-control" id="lastname" placeholder="lastname" value="<?= isset($utilisateur) ? $utilisateur['lastname'] : ""; ?>" name="lastname" required>
                             </div>
                             <div class="mb-3">
-                                <label for="address" class="form-label">Adresse</label>
-                                <textarea type="text" class="form-control" id="address" placeholder="address" placeholder="<?= isset($utilisateur) ? "" : "Adresse de l'utilisateur"; ?>" name="address" required><?= isset($utilisateur) ? $utilisateur['address'] : ""; ?></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="city_id" class="form-label">Ville</label>
-                                <select name="city_id" class="form-select">
-                                    <option <?= !isset($utilisateur) ? "selected" : ""; ?> disabled>-- Votre Ville --</option>
-                                    <?php foreach($cities as $city) { ?>
-                                        <option value="<?= $city['id']; ?>" <?= isset($utilisateur) && $city['id'] == $utilisateur['city_id'] ? "selected" : ""; ?>><?= $city['name']; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="mb-3">
                                 <label for="phone" class="form-label">Numéro de Téléphone</label>
                                 <input type="text" class="form-control" id="phone" placeholder="phone" value="<?= isset($utilisateur) ? $utilisateur['phone'] : ""; ?>" name="phone" required>
                             </div>

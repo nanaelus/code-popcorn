@@ -14,12 +14,12 @@ class Theater extends BaseController
         }
         $cities = model('CityModel')->getAllCities();
         if($id == 'new') {
-            return $this->view('theater/theater', ['cities' => $cities], true);
+            return $this->view('theater/theater', [], true);
         }
         $theater = model('TheaterModel')->getTheaterById($id);
         if($theater) {
             $auditorium = model('AuditoriumModel')->getAllAuditorium();
-            return $this->view('theater/theater', ['theater' => $theater, 'cities' => $cities, 'auditorium' => $auditorium], true);
+            return $this->view('theater/theater', ['theater' => $theater, 'auditorium' => $auditorium], true);
         } else {
             $this->error(' Aucun Cinéma associé');
             $this->redirect('admin/theater', [], true);
@@ -100,11 +100,22 @@ class Theater extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function searchcity() {
-        $term = $this->request->getGet('term');
+    public function getautocompletecity() {
+        $searchValue = $this->request->getGet('q'); // Récupère le terme de recherche envoyé par Select2
 
-        $city = model('CityModel')->like('label', $term)->findAll(10);
+        // Appelle la méthode de recherche dans le modèle
+        $cities = model('CityModel')->searchCitiesByName($searchValue);
 
-        return $this->response->setJSON($city);
+        // Formatage des résultats pour Select2
+        $results = [];
+        foreach ($cities as $city) {
+            $results[] = [
+                'id' => $city['id'],  // Utilise le slug comme ID pour redirection ultérieure
+                'text' => $city['label'] . " - " . $city['zip_code'] // Ce texte sera affiché dans le dropdown de Select2
+            ];
+        }
+
+        // Retourne les résultats sous forme JSON pour Select2
+        return $this->response->setJSON($results);
     }
 }

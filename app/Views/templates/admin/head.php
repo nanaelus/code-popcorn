@@ -45,6 +45,9 @@
     <script src="<?= base_url('/js/admin.js') ?>"></script>
     <script src="<?= base_url('/js/toastr.min.js') ?>"></script>
     <script src="<?= base_url('/js/tinymce/tinymce.min.js') ?>"></script>
+    <script type="text/javascript">var base_url = "<?= base_url(); ?>";</script>
+    <script src="<?= base_url('/js/main.js') ?>"></script>
+
 
     <script>
         const header = document.querySelector('header.header');
@@ -71,6 +74,10 @@
     <!-- BOOTSTRAP BUNDLE -->
     <script src="<?= base_url('/js/bootstrap.bundle.min.js') ?>"></script>
 
+    <!-- SELECT 2 (recherche) -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
 </head>
 <body>

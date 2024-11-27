@@ -6,25 +6,34 @@
     "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
     "class": "main-menu-accueil"
   },
-  "movietheater": {
-    "title": "Cinémas",
-    "url": "/admin/theater",
-    "perm": "none",
-    "icon": "<i class=\"nav-icon fa-solid fa-ticket\"></i>",
-    "class": ""
-  },
-  "auditorium": {
-    "title": "Salles",
-    "url": "/admin/auditorium",
-    "perm": "none",
-    "icon": "<i class=\"nav-icon fa-solid fa-chair\"></i>",
-    "class": ""
-  },
-  "movies": {
-    "title": "Films",
-    "url": "/admin/movie",
-    "perm": "none",
-    "icon": "<i class=\"nav-icon fa-solid fa-film\"></i>"
+  "gestion": {
+    "title": "gestion",
+    "url" : "/theater",
+    "perm" : "none",
+    "icon": "<i class=\"nav-icon fa-solid fa-clapperboard\"></i>",
+    "class": "",
+    "subs" : {
+      "movietheater": {
+        "title": "Cinémas",
+        "url": "/admin/theater",
+        "perm": "none",
+        "icon": "<i class=\"nav-icon fa-solid fa-ticket\"></i>",
+        "class": ""
+      },
+      "auditorium": {
+        "title": "Salles",
+        "url": "/admin/auditorium",
+        "perm": "none",
+        "icon": "<i class=\"nav-icon fa-solid fa-chair\"></i>",
+        "class": ""
+      },
+      "movies": {
+        "title": "Films",
+        "url": "/admin/movie",
+        "perm": "none",
+        "icon": "<i class=\"nav-icon fa-solid fa-film\"></i>"
+      }
+    }
   },
   "administration": {
     "title": "Options",
