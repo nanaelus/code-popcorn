@@ -1,6 +1,7 @@
 <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between">
         <h4>Liste des Films</h4>
+        <a href="<?= base_url('admin/movie/new'); ?>"><i class="fa-solid fa-circle-plus"></i></a>
     </div>
     <div class="card-body">
         <table class="table table-sm table-hover" id="tableMovies">

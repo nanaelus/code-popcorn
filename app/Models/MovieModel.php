@@ -84,6 +84,14 @@ class MovieModel extends Model
         return $builder->countAllResults();
     }
 
+    public function createMovie($data) {
+        return $this->insert($data);
+    }
+
+    public function updateMovie($id, $data) {
+        return $this->update($id, $data);
+    }
+
     public function deleteMovie($id) {
         return $this->delete($id);
     }
