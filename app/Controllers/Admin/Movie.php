@@ -27,7 +27,20 @@ class Movie extends BaseController
 
     public function postcreate() {
         $data = $this->request->getPost();
-        if(model('MovieModel')->createMovie($data)) {
+        $newMovieId = model('MovieModel')->createMovie($data);
+        if($newMovieId) {
+            $file = $this->request->getFile('movie_image');
+            if($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
+                $mediaData = [
+                    'entity_type' => "movie",
+                    'entity_id' => $newMovieId,
+                ];
+                $uploadResult = upload_file($file, 'movie_preview', $data['title'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
+                if(is_array($uploadResult)&& $uploadResult['status'] === 'error') {
+                    $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
+                    $this->redirect("/admin/movie");
+                }
+            }
             $this->success('Film Ajouté');
         } else {
             $this->error("Erreur lors de l'ajout du film");
@@ -38,6 +51,22 @@ class Movie extends BaseController
     public function postupdate() {
         $data = $this->request->getPost();
         if(model('MovieModel')->updateMovie($data['id'], $data)) {
+            $file = $this->request->getFile('movie_image');
+            if($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
+                $old_media = model('MediaModel')->getMediaByEntityIdAndType($data['id'], 'movie');
+                $mediaData = [
+                    'entity_type' => "movie",
+                    'entity_id' => $data['id'],
+                ];
+                $uploadResult = upload_file($file, 'movie_preview', $data['title'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
+                if(is_array($uploadResult)&& $uploadResult['status'] === 'error') {
+                    $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
+                    return $this->redirect("/admin/movie");
+                }
+                if($old_media) {
+                    model('MediaModel')->deleteMedia($old_media[0]['id']);
+                }
+            }
             $this->success('Fiche du Film Modifié');
         } else {
             $this->error("Erreur lors de la modification de la fiche du film");

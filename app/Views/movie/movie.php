@@ -1,4 +1,4 @@
-<form method="POST" action="<?= isset($movie)? base_url('admin/movie/update') : base_url('admin/movie/create') ; ?>">
+<form method="POST" action="<?= isset($movie)? base_url('admin/movie/update') : base_url('admin/movie/create') ; ?>" enctype="multipart/form-data">
     <div class="card">
         <div class="card-header">
             <?= isset($movie) ? "Modification" : "Ajout" ?> d'un Film
@@ -32,6 +32,19 @@
                     <option value="-16 ans" <?= (isset($movie) && $movie['rating'] == "-16 ans") ? "selected" : ""; ?>>-16 ans</option>
                     <option value="-18 ans" <?= (isset($movie) && $movie['rating'] == "-18 ans") ? "selected" : ""; ?>>-18 ans</option>
                 </select>
+            </div>
+            <div class="mb-3 d-flex align-items-center">
+                <label for="image" class="form-label me-2">Affiche</label>
+                <div id="preview">
+                    <?php
+                    $movieImageUrl = isset($movie['preview_url']) ? base_url($movie['preview_url']) : "#";
+                    ?>
+                    <img class="img-thumbnail me-2"alt="Aperçu de l'image"
+                         style="display: <?= isset($utilisateur['avatar_url']) ? "block" : "none" ?>; max-width: 100px;"
+                         src="<?= $movieImageUrl ?>">
+                </div>
+
+                <input class="form-control" type="file" name="movie_image" id="image">
             </div>
         </div>
         <div class="card-footer">

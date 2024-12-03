@@ -45,9 +45,9 @@ class MovieModel extends Model
     protected $afterDelete    = [];
 
     public function getMovieById($id) {
-        $builder = $this->db->table('movie');
-        $builder->where('id', $id);
-        return $builder->get()->getRowArray();
+        $this->select('movie.*, media.file_path as preview_url');
+        $this->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
+        return $this->find($id);
     }
 
     public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection)
