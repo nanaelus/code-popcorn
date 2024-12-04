@@ -53,9 +53,14 @@ class MovieModel extends Model
     public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection)
     {
         $builder = $this->builder();
+        $builder->select('movie.*, media.file_path as preview_url');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
         // Recherche
         if ($searchValue != null) {
-            $builder->like('name', $searchValue);
+            $builder->like('title', $searchValue);
+            $builder->orLike('release', $searchValue);
+            $builder->orLike('rating', $searchValue);
+            $builder->orLike('description', $searchValue);
         }
 
         // Tri
@@ -71,14 +76,21 @@ class MovieModel extends Model
     public function getTotal()
     {
         $builder = $this->builder();
+        $builder->select('movie.*, media.file_path as preview_url');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
         return $builder->countAllResults();
     }
 
     public function getFiltered($searchValue)
     {
         $builder = $this->builder();
+        $builder->select('movie.*, media.file_path as preview_url');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
         if (!empty($searchValue)) {
-            $builder->like('name', $searchValue);
+            $builder->like('title', $searchValue);
+            $builder->orLike('release', $searchValue);
+            $builder->orLike('rating', $searchValue);
+            $builder->orLike('description', $searchValue);
         }
 
         return $builder->countAllResults();
