@@ -61,7 +61,7 @@ class Movie extends BaseController
                 $uploadResult = upload_file($file, 'movie_preview', $data['title'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
                 if(is_array($uploadResult)&& $uploadResult['status'] === 'error') {
                     $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
-                    return $this->redirect("/admin/movie");
+                    $this->redirect("/admin/movie");
                 }
                 if($old_media) {
                     model('MediaModel')->deleteMedia($old_media[0]['id']);

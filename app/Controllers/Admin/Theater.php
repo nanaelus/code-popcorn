@@ -28,7 +28,19 @@ class Theater extends BaseController
 
     public function postcreate() {
         $data = $this->request->getPost();
-        if(model('TheaterModel')->createTheater($data)) {
+        $newTheaterId = model('TheaterModel')->createTheater($data);
+        if($newTheaterId) {
+            $file = $this->request->getFile('theater_image');
+            if($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
+                $mediaData = [
+                    'entity_type' => 'theater',
+                    'entity_id' => $newTheaterId,
+                ];
+                $uploadResult = upload_file($file, 'theater_preview', $data['name'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
+                if(is_array($uploadResult) && $uploadResult['status'] === 'error') {
+                    $this->error("Une erreur est survenue lors de l'upload de l'image");
+                }
+            }
             $this->success('Cinéma créé avec succès');
         } else {
             $this->error('Erreur lors de la création du cinéma');
@@ -39,6 +51,21 @@ class Theater extends BaseController
     public function postupdate() {
         $data = $this->request->getPost();
         if(model('TheaterModel')->updateTheater($data['id'],$data)) {
+            $file = $this->request->getFile('theater_image');
+            if($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
+                $old_media = model('MediaModel')->getMediaByEntityIdAndType($data['id'], 'theater');
+                $mediaData = [
+                    'entity_type' => 'theater',
+                    'entity_id' => $data['id'],
+                ];
+                $uploadResult = upload_file($file, 'theater_preview', $data['name'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
+                if(is_array($uploadResult) && $uploadResult['status'] === 'error') {
+                    $this->error("Une erreur est survenue lors de l'upload de l'image");
+                }
+                if($old_media) {
+                    model('MediaModel')->deleteMedia($old_media[0]['id']);
+                }
+            }
             $this->success('Données du cinéma mises à jour avec succès!');
         } else {
             $this->error('Une erreur est survenue lors de la mise à jour des données du cinéma');

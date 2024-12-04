@@ -40,10 +40,9 @@
                     $movieImageUrl = isset($movie['preview_url']) ? base_url($movie['preview_url']) : "#";
                     ?>
                     <img class="img-thumbnail me-2"alt="Aperçu de l'image"
-                         style="display: <?= isset($utilisateur['avatar_url']) ? "block" : "none" ?>; max-width: 100px;"
+                         style="display: <?= isset($movie['preview_url']) ? "block" : "none" ?>; max-width: 100px;"
                          src="<?= $movieImageUrl ?>">
                 </div>
-
                 <input class="form-control" type="file" name="movie_image" id="image">
             </div>
         </div>

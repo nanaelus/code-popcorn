@@ -69,7 +69,8 @@ class TheaterModel extends Model
 
     public function getTheaterById($id) {
         $builder = $this->builder();
-        $builder->select('theater.*, city.label as city_name');
+        $builder->select('theater.*, city.label as city_name, media.file_path as preview_url');
+        $builder->join('media', 'theater.id= media.entity_id AND media.entity_type = "theater"', 'left');
         $builder->join('city', 'city.id = theater.city_id');
         $builder->where('theater.id', $id);
         return $builder->get()->getRowArray();
