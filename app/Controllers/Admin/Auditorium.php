@@ -10,18 +10,18 @@ class Auditorium extends BaseController
     public function getindex($id = null)
     {
         if ($id == null) {
-            return $this->view('/theater/auditorium/index.php',[], true);
+            return $this->view('admin/theater/auditorium/index.php',[], true);
         }
         $allTheater = model('TheaterModel')->getAllTheaters();
         if ($id == "new") {
-            return $this->view('/theater/auditorium/auditorium.php',['allTheater' => $allTheater], true);
+            return $this->view('admin/theater/auditorium/auditorium.php',['allTheater' => $allTheater], true);
         }
         $auditorium = model('AuditoriumModel')->getAuditoriumById($id);
         if($auditorium){
-            return $this->view('/theater/auditorium/auditorium.php',['auditorium' => $auditorium, 'allTheater' => $allTheater], true);
+            return $this->view('admin/theater/auditorium/auditorium.php',['auditorium' => $auditorium, 'allTheater' => $allTheater], true);
         } else {
             $this->error('Cette salle n\'existe pas');
-            $this->redirect('/admin/auditorium');
+            $this->redirect('admin/auditorium');
         }
     }
 
@@ -32,7 +32,7 @@ class Auditorium extends BaseController
         } else {
             $this->error('Erreur lors de la création de la salle');
         }
-        $this->redirect('/admin/auditorium');
+        $this->redirect('admin/auditorium');
     }
 
     public function postupdate() {
@@ -42,7 +42,7 @@ class Auditorium extends BaseController
         } else {
             $this->error('Erreur lors de la mise à jour de la salle');
         }
-        $this->redirect('/admin/auditorium');
+        $this->redirect('admin/auditorium');
     }
 
     public function getdeactivate($id){
@@ -52,7 +52,7 @@ class Auditorium extends BaseController
         } else {
             $this->error("Salle non désactivée");
         }
-        $this->redirect('/admin/auditorium');
+        $this->redirect('admin/auditorium');
     }
 
     public function getactivate($id){
@@ -62,6 +62,6 @@ class Auditorium extends BaseController
         } else {
             $this->error("Salle non activée");
         }
-        $this->redirect('/admin/auditorium');
+        $this->redirect('admin/auditorium');
     }
 }

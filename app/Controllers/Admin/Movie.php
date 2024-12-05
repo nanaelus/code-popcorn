@@ -9,18 +9,19 @@ class Movie extends BaseController
     public function getindex($id = null)
     {
         if($id == null) {
-            return $this->view('/movie/index', [],true);
+            return $this->view('admin/movie/index', [],true);
         }
+        $categories = model('CategoryModel')->getAllCategories();
         if($id == "new") {
-            return $this->view('/movie/movie', [],true);
+            return $this->view('/admin/movie/movie', ['categories'=>$categories],true);
         }
         if($id) {
             $movie = model('MovieModel')->getMovieById($id);
             if($movie) {
-                return $this->view('/movie/movie', ['movie' => $movie],true);
+                return $this->view('admin/movie/movie', ['movie' => $movie, 'categories' => $categories],true);
             } else {
                 $this->error('Aucun film correspondant à cet ID');
-                $this->redirect('/admin/movie');
+                $this->redirect('admin/movie');
             }
         }
     }
@@ -38,7 +39,7 @@ class Movie extends BaseController
                 $uploadResult = upload_file($file, 'movie_preview', $data['title'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
                 if(is_array($uploadResult)&& $uploadResult['status'] === 'error') {
                     $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
-                    $this->redirect("/admin/movie");
+                    $this->redirect("admin/movie");
                 }
             }
             $this->success('Film Ajouté');

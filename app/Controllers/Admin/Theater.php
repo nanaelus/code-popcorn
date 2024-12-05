@@ -10,16 +10,16 @@ class Theater extends BaseController
     {
         if($id == null) {
             $allTheaters = model('TheaterModel')->getAllTheaters();
-            return $this->view('theater/index', ['allTheaters' => $allTheaters], true);
+            return $this->view('admin/theater/index', ['allTheaters' => $allTheaters], true);
         }
         $cities = model('CityModel')->getAllCities();
         if($id == 'new') {
-            return $this->view('theater/theater', [], true);
+            return $this->view('admin/theater/theater', [], true);
         }
         $theater = model('TheaterModel')->getTheaterById($id);
         if($theater) {
             $auditorium = model('AuditoriumModel')->getAllAuditorium();
-            return $this->view('theater/theater', ['theater' => $theater, 'auditorium' => $auditorium], true);
+            return $this->view('admin/theater/theater', ['theater' => $theater, 'auditorium' => $auditorium], true);
         } else {
             $this->error(' Aucun Cinéma associé');
             $this->redirect('admin/theater', [], true);

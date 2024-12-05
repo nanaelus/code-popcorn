@@ -111,4 +111,19 @@ class MovieModel extends Model
     public function activateMovie($id) {
         return $this->update($id, ['deleted_at' => null]);
     }
+
+    public function getAllMovies() {
+        $builder = $this->builder();
+        $builder->select('movie.*, media.file_path as preview_url');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"');
+        return $this->findAll();
+    }
+
+    public function getMovieBySlug($slug) {
+        $builder = $this->builder();
+        $builder->select('movie.*, media.file_path as preview_url');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"');
+        $builder->where('slug', $slug);
+        return $builder->get()->getRowArray();
+    }
 }
