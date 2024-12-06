@@ -27,7 +27,11 @@ class TableAuditorium extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
-            ]
+            ],
+            'deleted_at' => [
+                'type'       => 'DATETIME',
+                'null'       => true,
+            ],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('theater_id', 'theater', 'id', 'CASCADE', 'CASCADE');

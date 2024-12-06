@@ -1,0 +1,31 @@
+{
+  "accueil": {
+    "title": "Accueil",
+    "url": "",
+    "perm": "none",
+    "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
+    "class": "main-menu-accueil"
+  },
+  "gestion": {
+    "title": "gestion",
+    "url" : "/theater",
+    "perm" : "none",
+    "icon": "<i class=\"nav-icon fa-solid fa-clapperboard\"></i>",
+    "class": "",
+    "subs" : {
+      "movietheater": {
+        "title": "Cinémas",
+        "url": "theater",
+        "perm": "none",
+        "icon": "<i class=\"nav-icon fa-solid fa-ticket\"></i>",
+        "class": ""
+      },
+      "movies": {
+        "title": "Films",
+        "url": "movie",
+        "perm": "none",
+        "icon": "<i class=\"nav-icon fa-solid fa-film\"></i>"
+      }
+    }
+  }
+}

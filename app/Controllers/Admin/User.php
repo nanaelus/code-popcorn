@@ -15,19 +15,59 @@ class User extends BaseController
             $users = $um->getPermissions();
             return $this->view("/admin/user/index.php",['users' => $users], true);
         } else {
+            $cities = model("CityModel")->getAllCities();
             $permissions = Model("UserPermissionModel")->getAllPermissions();
             if ($id == "new") {
                 $this->addBreadcrumb('Création d\' un utilisateur','');
-                return $this->view("/admin/user/user",["permissions" => $permissions], true);
+                return $this->view("/admin/user/user",["permissions" => $permissions, 'cities' => $cities], true);
             }
             $utilisateur = $um->getUserById($id);
             if ($utilisateur) {
                 $this->addBreadcrumb('Modification de ' . $utilisateur['username'], '');
-                return $this->view("/admin/user/user", ["utilisateur" => $utilisateur, "permissions" => $permissions ], true);
+                return $this->view("/admin/user/user", ["utilisateur" => $utilisateur, "permissions" => $permissions , 'cities' => $cities], true);
             } else {
                 $this->error("L'ID de l'utilisateur n'existe pas");
                 $this->redirect("/admin/user");
             }
+        }
+    }
+
+    public function postcreate() {
+        $data = $this->request->getPost();
+        $um = Model("UserModel");
+
+        // Créer l'utilisateur et obtenir son ID
+        $newUserId = $um->createUser($data);
+
+        // Vérifier si la création a réussi
+        if ($newUserId) {
+            // Vérifier si des fichiers ont été soumis dans le formulaire
+            $file = $this->request->getFile('profile_image'); // 'profile_image' est le nom du champ dans le formulaire
+            if ($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
+                // Préparer les données du média
+                $mediaData = [
+                    'entity_type' => 'user',
+                    'entity_id'   => $newUserId,   // Utiliser le nouvel ID de l'utilisateur
+                ];
+
+                // Utiliser la fonction upload_file() pour gérer l'upload et les données du média
+                $uploadResult = upload_file($file, 'avatar', $data['username'], $mediaData);
+
+                // Vérifier le résultat de l'upload
+                if (is_array($uploadResult) && $uploadResult['status'] === 'error') {
+                    // Afficher un message d'erreur détaillé et rediriger
+                    $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
+                    return $this->redirect("/admin/user/new");
+                }
+            }
+            $this->success("L'utilisateur à bien été ajouté.");
+            $this->redirect("/admin/user");
+        } else {
+            $errors = $um->errors();
+            foreach ($errors as $error) {
+                $this->error($error);
+            }
+            $this->redirect("/admin/user/new");
         }
     }
 
@@ -86,44 +126,6 @@ class User extends BaseController
 
 
 
-    public function postcreate() {
-        $data = $this->request->getPost();
-        $um = Model("UserModel");
-
-        // Créer l'utilisateur et obtenir son ID
-        $newUserId = $um->createUser($data);
-
-        // Vérifier si la création a réussi
-        if ($newUserId) {
-            // Vérifier si des fichiers ont été soumis dans le formulaire
-            $file = $this->request->getFile('profile_image'); // 'profile_image' est le nom du champ dans le formulaire
-            if ($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
-                // Préparer les données du média
-                $mediaData = [
-                    'entity_type' => 'user',
-                    'entity_id'   => $newUserId,   // Utiliser le nouvel ID de l'utilisateur
-                ];
-
-                // Utiliser la fonction upload_file() pour gérer l'upload et les données du média
-                $uploadResult = upload_file($file, 'avatar', $data['username'], $mediaData);
-
-                // Vérifier le résultat de l'upload
-                if (is_array($uploadResult) && $uploadResult['status'] === 'error') {
-                    // Afficher un message d'erreur détaillé et rediriger
-                    $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
-                    return $this->redirect("/admin/user/new");
-                }
-            }
-            $this->success("L'utilisateur à bien été ajouté.");
-            $this->redirect("/admin/user");
-        } else {
-            $errors = $um->errors();
-            foreach ($errors as $error) {
-                $this->error($error);
-            }
-            $this->redirect("/admin/user/new");
-        }
-    }
 
     public function getdeactivate($id){
         $um = Model('UserModel');

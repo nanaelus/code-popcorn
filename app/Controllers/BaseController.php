@@ -91,7 +91,7 @@ abstract class BaseController extends Controller
      *
      * @var string
      */
-    protected $title_prefix = 'Votre Projet';
+    protected $title_prefix = 'Code-PopCorn';
 
     /**
      * Menus à gérer dynamiquement dans l'application.

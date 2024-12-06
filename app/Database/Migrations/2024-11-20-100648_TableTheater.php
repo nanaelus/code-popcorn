@@ -34,6 +34,10 @@ class TableTheater extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
+            ],
+            'deleted_at' => [
+                'type' => 'datetime',
+                'null' => true,
             ]
         ]);
         $this->forge->addPrimaryKey('id');

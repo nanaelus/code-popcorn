@@ -19,6 +19,21 @@ class TableUser extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
             ],
+            'firstname' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
+            ],
+            'lastname' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
+            ],
+            'phone' => [
+                'type' => 'VARCHAR',
+                'constraint' => '25',
+            ],
+            'dob' => [
+                'type' => 'DATE',
+            ],
             'email' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '100',

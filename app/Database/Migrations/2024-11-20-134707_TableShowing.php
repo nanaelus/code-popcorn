@@ -31,6 +31,10 @@ class TableShowing extends Migration
                 'constraint' => 11,
                 'unsigned' => true,
             ],
+            'capacity' => [
+                'type' => 'INT',
+                'constraint' => 11,
+            ],
             'type_show_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
