@@ -97,6 +97,7 @@ class MovieModel extends Model
     }
 
     public function createMovie($data) {
+        $data['slug'] = $this->generateUniqueSlug($data['title']);
         return $this->insert($data);
     }
 
@@ -115,15 +116,32 @@ class MovieModel extends Model
     public function getAllMovies() {
         $builder = $this->builder();
         $builder->select('movie.*, media.file_path as preview_url');
-        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
         return $this->findAll();
     }
 
     public function getMovieBySlug($slug) {
         $builder = $this->builder();
         $builder->select('movie.*, media.file_path as preview_url');
-        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
         $builder->where('slug', $slug);
         return $builder->get()->getRowArray();
+    }
+
+    private function generateUniqueSlug($name)
+    {
+        $slug = generateSlug($name);
+        $builder = $this->builder();
+        $count = $builder->where('slug', $slug)->countAllResults();
+        if ($count === 0) {
+            return $slug;
+        }
+        $i = 1;
+        while ($count > 0) {
+            $newSlug = $slug . '-' . $i;
+            $count = $builder->where('slug', $newSlug)->countAllResults();
+            $i++;
+        }
+        return $newSlug;
     }
 }

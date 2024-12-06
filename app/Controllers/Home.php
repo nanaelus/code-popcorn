@@ -7,7 +7,8 @@ class Home extends BaseController
     protected $require_auth = false;
     public function index(): string
     {
-        return $this->view('movie/index');
+        $movies = model('MovieModel')->getAllMovies();
+        return $this->view('movie/index', ['movies' => $movies]);
     }
 
     public function getforbidden() : string

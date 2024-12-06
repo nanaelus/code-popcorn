@@ -11,12 +11,14 @@
                             <?php foreach ($chunk as $movie) { ?>
                                 <div class="col-md-3 col-6">
                                     <div class="card h-100">
+                                        <span>
                                         <?php
-                                        $img_src = !empty($movie['preview_url']) ? $movie['preview_url'] : '';
+                                        $img_src = !empty($movie['preview_url']) ? $movie['preview_url'] : base_url('assets/img/preview/flim.jpg');
                                         ?>
                                         <a href="<?= base_url('movie/' . $movie['slug']) ?>">
                                             <img src="<?= $img_src ?>" class="card-img-top" alt="<?= $movie['title'] ?>">
-                                        </a>
+                                        </a></span>
+                                        <span class=" d-flex align-content-between"><?= $movie['title']; ?></span>
                                     </div>
                                 </div>
                             <?php } ?>
@@ -30,4 +32,3 @@
         </div>
     </div>
 </div>
-

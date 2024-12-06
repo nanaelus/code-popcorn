@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Movie extends BaseController
 {
+    protected $require_auth = false;
     public function getindex($slug = null)
     {
         if($slug == null) {

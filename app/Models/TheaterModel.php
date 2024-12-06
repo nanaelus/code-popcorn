@@ -76,6 +76,15 @@ class TheaterModel extends Model
         return $builder->get()->getRowArray();
     }
 
+    public function getAllActiveTheater() {
+        $builder = $this->builder();
+        $builder->select('theater.*, city.label as city_name, media.file_path as preview_url');
+        $builder->join('media', 'theater.id= media.entity_id AND media.entity_type = "theater"', 'left');
+        $builder->join('city', 'city.id = theater.city_id');
+        $builder->where('deleted_at', null);
+        return $builder->get()->getResultArray();
+    }
+
     public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection)
     {
         $builder = $this->builder();

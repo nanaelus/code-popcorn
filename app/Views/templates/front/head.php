@@ -30,8 +30,8 @@
 
 
     <!-- Javascript -->
-    <script src="<?= base_url('/js/jquery-3.7.1.min.js') ?>"></script>
     <script src="<?= base_url('/js/toastr.min.js') ?>"></script>
+    <script src="<?= base_url('/js/jquery-3.7.1.min.js') ?>"></script>
     <script type="text/javascript">
         var base_url = "<?= base_url(); ?>";
     </script>

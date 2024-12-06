@@ -15,21 +15,14 @@
     "subs" : {
       "movietheater": {
         "title": "Cinémas",
-        "url": "/admin/theater",
+        "url": "theater",
         "perm": "none",
         "icon": "<i class=\"nav-icon fa-solid fa-ticket\"></i>",
         "class": ""
       },
-      "auditorium": {
-        "title": "Salles",
-        "url": "/admin/auditorium",
-        "perm": "none",
-        "icon": "<i class=\"nav-icon fa-solid fa-chair\"></i>",
-        "class": ""
-      },
       "movies": {
         "title": "Films",
-        "url": "/admin/movie",
+        "url": "movie",
         "perm": "none",
         "icon": "<i class=\"nav-icon fa-solid fa-film\"></i>"
       }
