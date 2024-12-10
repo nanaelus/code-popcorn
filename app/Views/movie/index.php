@@ -17,7 +17,8 @@
                                         ?>
                                         <a href="<?= base_url('movie/' . $movie['slug']) ?>">
                                             <img src="<?= $img_src ?>" class="card-img-top" alt="<?= $movie['title'] ?>">
-                                        </a></span>
+                                        </a>
+                                        </span>
                                         <span class=" d-flex align-content-between"><?= $movie['title']; ?></span>
                                     </div>
                                 </div>

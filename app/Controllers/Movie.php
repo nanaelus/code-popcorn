@@ -22,7 +22,7 @@ class Movie extends BaseController
             return $this->view('movie/movie', ['movie' => $movie]);
         } else {
             $this->error('Pas de film correspondant');
-            return $this->view('movie/index');
+            $this->redirect('movie');
         }
     }
 }

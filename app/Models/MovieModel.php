@@ -102,6 +102,9 @@ class MovieModel extends Model
     }
 
     public function updateMovie($id, $data) {
+        if (isset($data['title'])) {
+            $data['slug'] = $this->generateUniqueSlug($data['title'],$id);
+        }
         return $this->update($id, $data);
     }
 

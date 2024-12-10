@@ -94,21 +94,4 @@ class Movie extends BaseController
         }
         $this->redirect('/admin/movie');
     }
-
-    private function generateUniqueSlug($name)
-    {
-        $slug = generateSlug($name);
-        $builder = $this->builder();
-        $count = $builder->where('slug', $slug)->countAllResults();
-        if ($count === 0) {
-            return $slug;
-        }
-        $i = 1;
-        while ($count > 0) {
-            $newSlug = $slug . '-' . $i;
-            $count = $builder->where('slug', $newSlug)->countAllResults();
-            $i++;
-        }
-        return $newSlug;
-    }
 }

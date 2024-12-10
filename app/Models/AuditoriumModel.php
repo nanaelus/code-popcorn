@@ -32,6 +32,13 @@ class AuditoriumModel extends Model
         return $builder->get()->getRowArray();
     }
 
+    public function getAuditoriumByTheaterId($theater_id){
+        $builder = $this->builder();
+        $builder->select('*');
+        $builder->where('theater_id', $theater_id);
+        return $builder->get()->getResultArray();
+    }
+
     public function getAllAuditorium() {
         return $this->findAll();
     }

@@ -10,7 +10,10 @@
                        <span>Date de Sortie : <?= $movie['release']; ?></span>
                        <span>Durée : <?= $movie['duration']; ?> minutes</span>
                    </div>
-                   <img src="<?=base_url($movie['preview_url']); ?>">
+                   <?php
+                   $img_src = !empty($movie['preview_url']) ? $movie['preview_url'] : base_url('assets/img/preview/flim.jpg');
+                   ?>
+                       <img style= width:300px height="400px" src="<?= $img_src ?>" class="card-img-top" alt="<?= $movie['title'] ?>">
                    <p><?= $movie['description']; ?></p>
                    <?php if($movie['rating'] != 'Tous Publics') { ?>
                        Film Interdit aux Moins de : <?= $movie['rating']; ?>.

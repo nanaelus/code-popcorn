@@ -32,6 +32,12 @@
         "url": "/admin/movie",
         "perm": "none",
         "icon": "<i class=\"nav-icon fa-solid fa-film\"></i>"
+      },
+      "showing": {
+        "title": "Séances",
+        "url": "admin/showing",
+        "perm": "none",
+        "icon": "<i class=\"nav-icon fa-regular fa-clock\"></i>"
       }
     }
   },
