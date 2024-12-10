@@ -29,11 +29,14 @@ class ShowingModel extends Model
 
     public function getShowingByTheaterId($theater_id) {
         $builder = $this->builder();
-        $builder->select('showing.*');
-        $builder->join('auditorium a', 'showing.auditorium_id = a.id', 'left');
+        $builder->select('showing.*,t.name as theater_name, a.name as auditorium_name, movie.*, media.file_path as preview_url');
+        $builder->join('auditorium a', 'a.id = showing.auditorium_id', 'inner');
+        $builder->join('movie', 'showing.movie_id = movie.id', 'inner');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
         $builder->join('theater t', 't.id = a.theater_id', 'left');
-        $builder->where('t.id', $theater_id);
-        return $builder->get()->getResultArray();
+        $builder->where('a.theater_id', $theater_id);
+        $query = $builder->get();
+        return $query->getResultArray();
     }
 
     public function getShowingById($id) {

@@ -7,8 +7,7 @@ class Home extends BaseController
     protected $require_auth = false;
     public function index(): string
     {
-        $movies = model('MovieModel')->getAllMovies();
-        return $this->view('movie/index', ['movies' => $movies]);
+        $this->redirect('movie');
     }
 
     public function getforbidden() : string

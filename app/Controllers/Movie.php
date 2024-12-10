@@ -11,8 +11,10 @@ class Movie extends BaseController
     public function getindex($slug = null)
     {
         if($slug == null) {
-            $movies = model('MovieModel')->getAllMovies();
-            return $this->view('movie/index', ['movies' => $movies]);
+            $moviesShowing = model('MovieModel')->getAllMoviesShowing();
+            $perPage = 8;
+            $pager = model('MovieModel')->pager;
+            return $this->view('movie/index', ['movies' => $moviesShowing, 'pager' => $pager]);
         }
         if($slug == "new") {
             return $this->view('movie/movie');

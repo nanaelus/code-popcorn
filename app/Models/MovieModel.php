@@ -147,4 +147,14 @@ class MovieModel extends Model
         }
         return $newSlug;
     }
+
+    public function getAllMoviesShowing($perPage = 8) {
+        $builder = $this->builder();
+        $builder->select('movie.*, media.file_path as preview_url');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
+        $builder->join('showing', 'showing.movie_id = movie.id', 'left');
+        $builder->where('movie.release >= NOW()') // Utilisation de la fonction SQL NOW()
+        ->orWhere('showing.id IS NOT NULL'); // Ou qui ont une séance prévue
+        return $this->paginate($perPage);
+    }
 }
