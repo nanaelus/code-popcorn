@@ -155,6 +155,16 @@ class MovieModel extends Model
         $builder->join('showing', 'showing.movie_id = movie.id', 'left');
         $builder->where('movie.release >= NOW()') // Utilisation de la fonction SQL NOW()
         ->orWhere('showing.id IS NOT NULL'); // Ou qui ont une séance prévue
+        $builder->distinct();
         return $this->paginate($perPage);
+    }
+
+    public function searchMoviesByName($searchValue, $limit = 10) {
+        // On effectue la requête sur la base de données
+        $builder = $this->db->table('movie');
+        $builder->like('title', $searchValue); // On recherche les villes dont le nom contient $searchValue
+        $builder->orLike('release', $searchValue); // On recherche les villes dont le nom contient $searchValue
+        $query = $builder->get();
+        return $query->getResultArray(); // Retourne les résultats sous forme de tableau
     }
 }

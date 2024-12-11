@@ -25,4 +25,15 @@ class Theater extends BaseController
             }
         }
     }
+
+    public function posttheater() {
+        $theaterId = $this->request->getPost('theater_id');
+        $theater = model('TheaterModel')->getTheaterById($theaterId);
+        if($theater){
+        $this->session->set('theater', $theater);
+        $this->redirect('theater/'. $theater['id']);
+        } else {
+            $this->redirect('theater');
+        }
+    }
 }

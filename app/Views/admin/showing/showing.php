@@ -54,7 +54,6 @@
                                 <?php foreach ($allShowingType as $type) { ?>
                                     <option value="<?= $type['id']; ?>"><?= $type['name']; ?></option>
                                 <?php } ?>
-                                <option value=""></option>
                             </select>
                         </div>
                         <div class="mb-3">

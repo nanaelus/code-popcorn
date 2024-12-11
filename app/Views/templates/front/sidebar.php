@@ -36,7 +36,16 @@
                 } ?>
             </ul>
         </div>
-        <select id="search-item-head" class="form-control me-2 w-25" name="item">LOL</select>
+        <form class="" method="POST" action="<?= base_url("theater/theater"); ?>">
+                <select class="form-select-sm me-2" name="theater_id">
+                    <option>Aucun Cinéma Sélectionné</option>
+                    <?php foreach($theaters as $t){ ?>
+                        <option value="<?= $t['id']; ?>" <?= isset($theater) && $theater['id']==$t['id'] ? "selected" : ""; ?>><?= $t['name']; ?></option>
+                    <?php } ?>
+                </select>
+                <button type="submit" class="btn btn-sm btn-primary me-2">Valider</button>
+        </form>
+        <select id="search-movie-head" class="form-control me-2 w-25" name="item">LOL</select>
 
         <?php if (isset($user)) { ?>
             <div class="navbar-nav d-flex">

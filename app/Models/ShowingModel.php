@@ -101,4 +101,13 @@ class ShowingModel extends Model
 
         return $builder->countAllResults();
     }
+
+    public function getShowingByMovieSlug($slug) {
+        $builder = $this->builder();
+        $builder->select('showing.date, showing.capacity, showing.version, theater.name as theater_name');
+        $builder->join('movie', 'movie.id = showing.movie_id', 'left');
+        $builder->join('auditorium', 'auditorium.id = showing.auditorium_id', 'left');
+        $builder->join('theater', 'theater.id = auditorium.theater_id', 'left');
+        return $builder->where('movie.slug', $slug)->get()->getResultArray();
+    }
 }

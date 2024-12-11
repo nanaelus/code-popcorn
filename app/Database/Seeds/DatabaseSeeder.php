@@ -14,5 +14,8 @@ class DatabaseSeeder extends Seeder
         $this->call('CinemaSeeder');
         $this->call('AuditoriumSeeder');
         $this->call('CategorySeeder');
+        $this->call('PriceSeeder');
+        $this->call('TypeShowingSeeder');
+        $this->call('CinemaSessionSeeder');
     }
 }

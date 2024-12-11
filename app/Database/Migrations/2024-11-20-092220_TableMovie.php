@@ -21,8 +21,7 @@ class TableMovie extends Migration
                 'null' => false,
             ],
             'release' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
+                'type' => 'DATE',
             ],
             'duration' => [
                 'type' => 'INT',

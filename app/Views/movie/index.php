@@ -1,7 +1,60 @@
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="card">
+<?php
+$router = service('router');
+$controller = strtolower(basename(str_replace('\\', '/', $router->controllerName())));
+if($controller == '' || 'home'){
+    $controller = 'movie';
+}
+?>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card h-100">
+            <div class="card-header">Filtre de recherche</div>
+                <div class="card-body">
+                    <form method="get" action="<?= base_url($controller); ?>">
+                        <div class="mb-3">
+                            <label class="form-label" for="rating">Classification</label>
+                            <select class="form-select" name="rating" id="rating">
+                                <option selected disabled value="">Aucun</option>
+                                <option value="Tous Publics">Tous Publics</option>
+                                <option value="-12 ans">-12 ans</option>
+                                <option value="-16 ans">-16 ans</option>
+                                <option value="-18 ans">-18 ans</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="version">Version</label>
+                            <select class="form-select" name="version">
+                                <option value="">Aucune</option>
+                                <option value="VF">VF</option>
+                                <option value="VOSTFR">VOSTFR</option>
+                                <option value="VFSTFR">VFSTFR</option>
+                                <option value="Audiodescription">Audiodescription</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="category">Catégorie</label>
+                            <select class="form-select">
+                                <option value="">Aucune</option>
+                                <?php foreach($categories as $category){ ?>
+                                    <option value=""></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <?php if (isset($data['page'])) { ?>
+                            <input type="hidden" value="<?= $data['page']; ?>" name="page">
+                        <?php }?>
+                        <?php if (isset($data['search'])) { ?>
+                            <input type="hidden" value="<?= $data['search']; ?>" name="search">
+                        <?php }?>
+                        <div class="d-grid mt-3">
+                            <button class="btn btn-primary" type="submit">Valider mes filtres</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div class="col-md-9">
+        <div class="card h-100">
                 <div class="card-header">
                     Films en salle actuellement et prochainement
                 </div>
@@ -35,10 +88,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <style>

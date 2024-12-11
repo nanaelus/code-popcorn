@@ -19,6 +19,22 @@
                        Film Interdit aux Moins de : <?= $movie['rating']; ?>.
                    <?php } ?>
                </div>
+               <div class="card-footer">
+                   <?php
+                   if($showings) {
+                       foreach($showings as $showing) { ?>
+                           <div class="mb-3">
+                               <div class="card">
+                                    <?php $date = strtotime($showing['date']); ?>
+                                   <p>Le : <?= date('d/m/Y',$date); ?> à <?= date('H:i',$date); ?></p>
+                                   <p>Version : <?= $showing['version']; ?></p>
+                                   <p>Cinéma : <?= $showing['theater_name']; ?> METTRE UN LIEN VERS LE CINOCHE</p>
+                               </div>
+                           </div>
+                       <?php }
+                   }
+                   ?>
+               </div>
            </div>
         </div>
     </div>
