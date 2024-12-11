@@ -30,8 +30,8 @@
 
 
     <!-- Javascript -->
-    <script src="<?= base_url('/js/toastr.min.js') ?>"></script>
     <script src="<?= base_url('/js/jquery-3.7.1.min.js') ?>"></script>
+    <script src="<?= base_url('/js/toastr.min.js') ?>"></script>
     <script type="text/javascript">
         var base_url = "<?= base_url(); ?>";
     </script>
@@ -48,6 +48,7 @@
     <!-- SPLIDE JS (gallery) -->
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+
     <!-- SELECT 2 (recherche) -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

@@ -182,7 +182,11 @@ abstract class BaseController extends Controller
     {
         if (!isset($this->session->user)) {
             if ($redirect) {
-                $redirect_url = current_url(true)->getPath();
+                $segments_url = current_url(true)->getSegments();
+                $redirect_url = "";
+                foreach($segments_url as $segment) {
+                    $redirect_url .= "/" . $segment;
+                }
                 $this->session->set('redirect_url', $redirect_url);
                 $this->redirect('/login');
             }
@@ -217,6 +221,7 @@ abstract class BaseController extends Controller
     {
         if (isset($this->session->user)) {
             $this->session->remove('user');
+            $this->session->remove('theater');
         }
         $this->redirect('/login');
     }
@@ -231,14 +236,17 @@ abstract class BaseController extends Controller
     public function redirect(string $url, array $data = [])
     {
         $url = base_url($url);
-        if (!empty($this->messages)) {
+        // Store messages in flashdata
+        if (count($this->messages) > 0) {
             session()->setFlashdata('messages', $this->messages);
         }
+
+        // Store additional data in flashdata
         if (!empty($data)) {
             session()->setFlashdata('data', $data);
         }
         header("Location: {$url}");
-        exit;
+        exit; /** @phpstan-ignore-line */
     }
 
     /**
@@ -266,6 +274,8 @@ abstract class BaseController extends Controller
                 'breadcrumb' => $this->breadcrumb,
                 'localmenu' => $this->menu,
                 'user' => ($this->session->user ?? null),
+                'theaters' => model('TheaterModel')->getAllTheaters(),
+                'theater' => ($this->session->theater ?? null),
                 'menus' => $this->menus($admin),
                 'title' => sprintf('%s : %s', $this->title, $this->title_prefix),
             ])

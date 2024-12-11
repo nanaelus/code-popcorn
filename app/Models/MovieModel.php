@@ -102,6 +102,9 @@ class MovieModel extends Model
     }
 
     public function updateMovie($id, $data) {
+        if (isset($data['title'])) {
+            $data['slug'] = $this->generateUniqueSlug($data['title'],$id);
+        }
         return $this->update($id, $data);
     }
 
@@ -143,5 +146,25 @@ class MovieModel extends Model
             $i++;
         }
         return $newSlug;
+    }
+
+    public function getAllMoviesShowing($perPage = 8) {
+        $builder = $this->builder();
+        $builder->select('movie.*, media.file_path as preview_url');
+        $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
+        $builder->join('showing', 'showing.movie_id = movie.id', 'left');
+        $builder->where('movie.release >= NOW()') // Utilisation de la fonction SQL NOW()
+        ->orWhere('showing.id IS NOT NULL'); // Ou qui ont une séance prévue
+        $builder->distinct();
+        return $this->paginate($perPage);
+    }
+
+    public function searchMoviesByName($searchValue, $limit = 10) {
+        // On effectue la requête sur la base de données
+        $builder = $this->db->table('movie');
+        $builder->like('title', $searchValue); // On recherche les villes dont le nom contient $searchValue
+        $builder->orLike('release', $searchValue); // On recherche les villes dont le nom contient $searchValue
+        $query = $builder->get();
+        return $query->getResultArray(); // Retourne les résultats sous forme de tableau
     }
 }

@@ -4,6 +4,19 @@
             <i class="icon icon-lg fa-solid fa-bars"></i>
         </button>
         <ul class="header-nav">
+            <form class="d-flex justify-content-center" method="POST" action="<?= base_url("/admin/theater/theater"); ?>">
+            <li class="nav-item py-1">
+                <select class="form-select-sm me-2" name="theater_id">
+                    <option>Aucun Cinéma Sélectionné</option>
+                    <?php foreach($theaters as $t){ ?>
+                        <option value="<?= $t['id']; ?>" <?= isset($theater) && $theater['id']==$t['id'] ? "selected" : ""; ?>><?= $t['name']; ?></option>
+                    <?php } ?>
+                </select>
+            </li>
+            <li class="d-flex align-content-end">
+                <button type="submit" class="btn btn-sm btn-primary">Valider</button>
+            </li>
+            </form>
             <li class="nav-item py-1">
                 <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
             </li>

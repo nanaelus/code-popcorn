@@ -17,10 +17,22 @@ class Theater extends BaseController
         if($id) {
             $theater = model('TheaterModel')->getTheaterById($id);
             if($theater) {
-            return $this->view('theater/theater', ['theater' => $theater]);
+                $showing = model('ShowingModel')->getShowingByTheaterId($theater['id']);
+            return $this->view('theater/theater', ['theater' => $theater, 'showing' => $showing]);
             } else {
                 $this->error('Mauvaise pioche');
+                $this->redirect('theater');
             }
+        }
+    }
+
+    public function posttheater() {
+        $theaterId = $this->request->getPost('theater_id');
+        $theater = model('TheaterModel')->getTheaterById($theaterId);
+        if($theater){
+        $this->session->set('theater', $theater);
+        $this->redirect('theater/'. $theater['id']);
+        } else {
             $this->redirect('theater');
         }
     }

@@ -145,4 +145,11 @@ class Theater extends BaseController
         // Retourne les résultats sous forme JSON pour Select2
         return $this->response->setJSON($results);
     }
+
+    public function posttheater() {
+        $theaterId = $this->request->getPost('theater_id');
+        $theater = model('TheaterModel')->getTheaterById($theaterId);
+        $this->session->set('theater', $theater);
+        $this->redirect('admin/');
+    }
 }
