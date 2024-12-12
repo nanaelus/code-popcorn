@@ -110,4 +110,8 @@ class ShowingModel extends Model
         $builder->join('theater', 'theater.id = auditorium.theater_id', 'left');
         return $builder->where('movie.slug', $slug)->get()->getResultArray();
     }
+
+    public function deleteShowing($id) {
+        return $this->delete($id);
+    }
 }

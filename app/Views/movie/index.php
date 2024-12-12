@@ -23,21 +23,12 @@ if($controller == '' || 'home'){
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="version">Version</label>
-                            <select class="form-select" name="version">
-                                <option value="">Aucune</option>
+                            <select class="form-select" name="version" id="version">
+                                <option selected disabled value="">Aucun</option>
                                 <option value="VF">VF</option>
                                 <option value="VOSTFR">VOSTFR</option>
                                 <option value="VFSTFR">VFSTFR</option>
                                 <option value="Audiodescription">Audiodescription</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="category">Catégorie</label>
-                            <select class="form-select">
-                                <option value="">Aucune</option>
-                                <?php foreach($categories as $category){ ?>
-                                    <option value=""></option>
-                                <?php } ?>
                             </select>
                         </div>
                         <?php if (isset($data['page'])) { ?>

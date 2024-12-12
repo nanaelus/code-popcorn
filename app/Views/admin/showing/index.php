@@ -17,7 +17,6 @@
                 <th>Type de Séance</th>
                 <th>Version</th>
                 <th>Catégorie de Prix</th>
-                <th>Modifier</th>
                 <th>Supprimer</th>
             </tr>
             </thead>
@@ -47,15 +46,20 @@
                 {"data" : "id"},
                 {"data" : "date"},
                 {"data" : "description"},
-                {"data" : "movie_name"}, //Faire la jointure pour le nom du film
-                {"data" : "theater_name"}, //Faire la jointure pour le nom ddu cinéma
-                {"data" : "auditorium_name"}, //Faire la jointure pour le nom de la salle
+                {"data" : "movie_name"},
+                {"data" : "theater_name"},
+                {"data" : "auditorium_name"},
                 {"data" : "capacity"},
-                {"data" : "type_name"}, //Faire la jointure pour le type de séance
+                {"data" : "type_name"},
                 {"data" : "version"},
-                {"data" : "categ_price"}, //Faire la jointure pour le type de prix
-                {"data" : "id"},  // Faire le bouton modifier
-                {"data" : "id"},  // Faire le bouton supprimer
+                {"data" : "categ_price"},
+                {
+                    data : "id",
+                    sortable : false,
+                    render: function(data) {
+                        return `<a href="${baseUrl}/admin/showing/delete/${data}"><i class="fa-solid fa-trash"></i></a>`
+                    }
+                },  // Faire le bouton supprimer
                 ]
         })
     })

@@ -19,7 +19,7 @@
                                 </a>
                             </div>
                             <p><?= $theater["name"]; ?></p>
-                            <p>Adresse : <?= $theater['address']; ?> <?= $theater['city_name']; ?></p>
+                            <p>Adresse : <?= $theater['address']; ?> </p>
                             <p>Tel : <?= $theater['phone']; ?></p>
                             <p>Email : <?= $theater['email']; ?></p>
                         </div>

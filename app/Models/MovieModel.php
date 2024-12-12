@@ -159,6 +159,26 @@ class MovieModel extends Model
         return $this->paginate($perPage);
     }
 
+    public function getAllMoviesFiltered($data, $deleted = null, $perPage = 8) {
+        $this->select('movie.id, movie.title, movie.slug, media.file_path as preview_url');
+        $this->join('media', 'media.entity_id = movie.id AND entity_type = "movie"', 'left');
+
+        foreach ($data as $filter =>$slug) {
+            switch($filter) {
+                case 'rating':
+                    $this->where('movie.rating', $slug);
+                    break;
+                case 'version':
+                    $this->join('showing', 'showing.movie_id = movie.id');
+                    $this->where('showing.version', $slug);
+                    break;
+            }
+        }
+        $this->where('movie.deleted_at', $deleted);
+
+        return $this->paginate($perPage);
+    }
+
     public function searchMoviesByName($searchValue, $limit = 10) {
         // On effectue la requête sur la base de données
         $builder = $this->db->table('movie');

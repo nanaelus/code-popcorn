@@ -44,4 +44,13 @@ class Showing extends BaseController
         }
         $this->redirect('/admin/showing');
     }
+
+    public function getdelete($id) {
+        if(model('ShowingModel')->deleteShowing($id)) {
+            $this->success('Séance supprimée');
+        } else {
+            $this->error('Une erreur est survenue');
+        }
+        $this->redirect('/admin/showing');
+    }
 }
