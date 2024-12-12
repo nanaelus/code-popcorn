@@ -174,7 +174,9 @@ class MovieModel extends Model
                     break;
             }
         }
-        $this->where('movie.deleted_at', $deleted);
+        $this->where('movie.deleted_at', $deleted)->where('movie.release >= NOW()') // Utilisation de la fonction SQL NOW()
+        ->orWhere('showing.id IS NOT NULL'); // Ou qui ont une séance prévue
+        $this->distinct();
 
         return $this->paginate($perPage);
     }
