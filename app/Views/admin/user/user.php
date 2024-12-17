@@ -30,7 +30,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="onglet-tab" data-bs-toggle="tab"
                                     data-bs-target="#onglet" type="button" role="tab" aria-controls="onglet"
-                                    aria-selected="false">ONGLET</button>
+                                    aria-selected="false">--TODO--</button>
                         </li>
                     </ul>
 
@@ -87,7 +87,6 @@
                                          style="display: <?= isset($utilisateur['avatar_url']) ? "block" : "none" ?>; max-width: 100px;"
                                          src="<?= $profileImageUrl ?>">
                                 </div>
-
                                 <input class="form-control" type="file" name="profile_image" id="image">
                             </div>
                         </div>
