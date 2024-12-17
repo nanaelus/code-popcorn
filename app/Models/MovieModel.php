@@ -162,20 +162,23 @@ class MovieModel extends Model
     public function getAllMoviesFiltered($data, $deleted = null, $perPage = 8) {
         $this->select('movie.id, movie.title, movie.slug, media.file_path as preview_url');
         $this->join('media', 'media.entity_id = movie.id AND entity_type = "movie"', 'left');
-
+        $this->join('showing', 'showing.movie_id = movie.id');
         foreach ($data as $filter =>$slug) {
             switch($filter) {
                 case 'rating':
                     $this->where('movie.rating', $slug);
                     break;
                 case 'version':
-                    $this->join('showing', 'showing.movie_id = movie.id');
                     $this->where('showing.version', $slug);
+                    break;
+                case 'category':
+                    $this->join('category_movie', 'movie.id = category_movie.movie_id');
+                    $this->join('category', 'category.id = category_movie.category_id', 'left');
+                    $this->where('category.slug', $slug);
                     break;
             }
         }
-        $this->where('movie.deleted_at', $deleted)->where('movie.release >= NOW()') // Utilisation de la fonction SQL NOW()
-        ->orWhere('showing.id IS NOT NULL'); // Ou qui ont une séance prévue
+        $this->where('movie.deleted_at', $deleted);
         $this->distinct();
 
         return $this->paginate($perPage);

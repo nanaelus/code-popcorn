@@ -18,16 +18,13 @@ class Movie extends BaseController
             $pager = model('MovieModel')->pager;
             return $this->view('movie/index', ['movies' => $moviesShowing, 'pager' => $pager, 'categories' => $categories]);
         }
-        if($slug == "new") {
-            return $this->view('movie/movie');
-        }
         $movie = model('MovieModel')->getMovieBySlug($slug);
         if($movie) {
             $showings = model('ShowingModel')->getShowingByMovieSlug($slug);
             return $this->view('movie/movie', ['movie' => $movie, 'showings' => $showings]);
         } else {
             $this->error('Pas de film correspondant');
-            $this->redirect('movie');
+            $this->redirect('');
         }
     }
 

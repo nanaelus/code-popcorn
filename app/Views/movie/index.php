@@ -7,10 +7,14 @@ if($controller == '' || 'home'){
 ?>
 <div class="row">
     <div class="col-md-3">
+
+        <!--Filtres -->
         <div class="card h-100">
             <div class="card-header">Filtre de recherche</div>
                 <div class="card-body">
                     <form method="get" action="<?= base_url($controller); ?>">
+
+                        <!--Filtre pour la classification -->
                         <div class="mb-3">
                             <label class="form-label" for="rating">Classification</label>
                             <select class="form-select" name="rating" id="rating">
@@ -21,6 +25,8 @@ if($controller == '' || 'home'){
                                 <option value="-18 ans">-18 ans</option>
                             </select>
                         </div>
+
+                        <!--Filtre pour les versions -->
                         <div class="mb-3">
                             <label class="form-label" for="version">Version</label>
                             <select class="form-select" name="version" id="version">
@@ -31,6 +37,16 @@ if($controller == '' || 'home'){
                                 <option value="Audiodescription">Audiodescription</option>
                             </select>
                         </div>
+
+                        <!-- Filtre pour les catégories -->
+                        <label class="form-label" for="category">Catégories</label>
+                        <select class="form-select mb-3" name="category" id="category">
+                            <option selected disabled value="">Aucun</option>
+                            <!-- Boucle à travers toutes les marques pour les afficher en options -->
+                            <?php foreach($categories as $category): ?>
+                                <option value="<?= $category['slug']; ?>" <?= (isset($data['category']) && $data['category']['slug'] == $category['slug']) ? "selected" : ""; ?>><?= $category['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
                         <?php if (isset($data['page'])) { ?>
                             <input type="hidden" value="<?= $data['page']; ?>" name="page">
                         <?php }?>
@@ -44,6 +60,8 @@ if($controller == '' || 'home'){
                 </div>
             </div>
         </div>
+
+    <!--Tous les films ayant une séance d'attribuée ou une release à venir -->
     <div class="col-md-9">
         <div class="card h-100">
                 <div class="card-header">
@@ -85,6 +103,8 @@ if($controller == '' || 'home'){
 </div>
 </div>
 
+
+<!-- Style Etagère, à revoir -->
 <style>
     .shelf-row {
         position: relative; /* Positionnement nécessaire pour le pseudo-élément */

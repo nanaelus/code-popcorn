@@ -22,7 +22,7 @@ class Home extends BaseController
             return $this->view('movie/movie', ['movie' => $movie]);
         } else {
             $this->error('Pas de film correspondant');
-            $this->redirect('home');
+            $this->redirect('');
         }
     }
 
