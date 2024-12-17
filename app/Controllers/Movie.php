@@ -13,14 +13,10 @@ class Movie extends BaseController
         $categories = model('CategoryModel')->getAllCategories();
         if($slug == null) {
             $data = $this->request->getGet();
-            $moviesShowing = model('MovieModel')->getAllMoviesShowing();
             $perPage = 8;
-            $movieFiltered = model('MovieModel')->getAllMoviesFiltered($data, null, $perPage);
+            $moviesShowing = model('MovieModel')->getAllMoviesFiltered($data, null, $perPage);
             $pager = model('MovieModel')->pager;
-            return $this->view('movie/index', ['movies' => $moviesShowing, 'pager' => $pager, 'categories' => $categories, 'filters' => $movieFiltered]);
-        }
-        if($slug == "new") {
-            return $this->view('movie/movie');
+            return $this->view('movie/index', ['movies' => $moviesShowing, 'pager' => $pager, 'categories' => $categories]);
         }
         $movie = model('MovieModel')->getMovieBySlug($slug);
         if($movie) {
@@ -28,7 +24,7 @@ class Movie extends BaseController
             return $this->view('movie/movie', ['movie' => $movie, 'showings' => $showings]);
         } else {
             $this->error('Pas de film correspondant');
-            $this->redirect('movie');
+            $this->redirect('');
         }
     }
 

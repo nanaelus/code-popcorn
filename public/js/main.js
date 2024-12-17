@@ -21,8 +21,6 @@ $(document).ready(function() {
                 searchTerm = params.term; // Stocke le terme de recherche pour une utilisation future
                 return {
                     results: [
-                        {id: 'search_all', text: 'Rechercher tous les objets contenant "' + searchTerm + '"'},
-                        {id: 'search_user', text: 'Voir la collection de l\'utilisateur "' + searchTerm + '"'},
                         ...data // Ajoute les résultats de la recherche dans Select2 (les suggestions)
                     ]
                 };
@@ -50,8 +48,6 @@ $(document).ready(function() {
                 searchTerm = params.term; // Stocke le terme de recherche pour une utilisation future
                 return {
                     results: [
-                        {id: 'search_all', text: 'Rechercher tous les objets contenant "' + searchTerm + '"'},
-                        {id: 'search_user', text: 'Voir la collection de l\'utilisateur "' + searchTerm + '"'},
                         ...data // Ajoute les résultats de la recherche dans Select2 (les suggestions)
                     ]
                 };

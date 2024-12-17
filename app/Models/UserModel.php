@@ -183,6 +183,4 @@ class UserModel extends Model
 
         return $builder->countAllResults();
     }
-
-
 }

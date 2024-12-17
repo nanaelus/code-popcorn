@@ -27,6 +27,11 @@ class TableCategory extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->createTable('category');
+        $data = [
+            'name' => 'Aucune',
+            'slug' => 'aucune',
+        ];
+        $this->db->table('category')->insert($data);
     }
 
     public function down()

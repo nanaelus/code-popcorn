@@ -59,7 +59,7 @@
                     render: function(data) {
                         return `<a href="${baseUrl}/admin/showing/delete/${data}"><i class="fa-solid fa-trash"></i></a>`
                     }
-                },  // Faire le bouton supprimer
+                },
                 ]
         })
     })

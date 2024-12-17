@@ -12,7 +12,6 @@ class Theater extends BaseController
             $allTheaters = model('TheaterModel')->getAllTheaters();
             return $this->view('admin/theater/index', ['allTheaters' => $allTheaters], true);
         }
-        $cities = model('CityModel')->getAllCities();
         if($id == 'new') {
             return $this->view('admin/theater/theater', [], true);
         }
@@ -30,13 +29,15 @@ class Theater extends BaseController
         $data = $this->request->getPost();
         $newTheaterId = model('TheaterModel')->createTheater($data);
         if($newTheaterId) {
+
+            // Gestion des images
             $file = $this->request->getFile('theater_image');
             if($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
                 $mediaData = [
                     'entity_type' => 'theater',
                     'entity_id' => $newTheaterId,
                 ];
-                $uploadResult = upload_file($file, 'theater_preview', $data['name'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
+                $uploadResult = upload_file($file, 'theater_preview', $data['name'], $mediaData, false, ['image/jpeg', 'image/png','image/jpg']);
                 if(is_array($uploadResult) && $uploadResult['status'] === 'error') {
                     $this->error("Une erreur est survenue lors de l'upload de l'image");
                 }
@@ -51,6 +52,8 @@ class Theater extends BaseController
     public function postupdate() {
         $data = $this->request->getPost();
         if(model('TheaterModel')->updateTheater($data['id'],$data)) {
+
+            // Gestion des Images
             $file = $this->request->getFile('theater_image');
             if($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
                 $old_media = model('MediaModel')->getMediaByEntityIdAndType($data['id'], 'theater');
@@ -58,7 +61,7 @@ class Theater extends BaseController
                     'entity_type' => 'theater',
                     'entity_id' => $data['id'],
                 ];
-                $uploadResult = upload_file($file, 'theater_preview', $data['name'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
+                $uploadResult = upload_file($file, 'theater_preview', $data['name'], $mediaData, false, ['image/jpeg', 'image/png','image/jpg']);
                 if(is_array($uploadResult) && $uploadResult['status'] === 'error') {
                     $this->error("Une erreur est survenue lors de l'upload de l'image");
                 }

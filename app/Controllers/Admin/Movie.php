@@ -18,7 +18,7 @@ class Movie extends BaseController
         if($id) {
             $movie = model('MovieModel')->getMovieById($id);
             if($movie) {
-                return $this->view('admin/movie/movie', ['movie' => $movie, 'categories' => $categories],true);
+                return $this->view('admin/movie/movie', ['movie' => $movie, 'categories' => $categories, 'category_movie' => model('CategoryMovieModel')->getAllCategoriesByIdMovie($id)],true);
             } else {
                 $this->error('Aucun film correspondant à cet ID');
                 $this->redirect('admin/movie');
@@ -30,18 +30,35 @@ class Movie extends BaseController
         $data = $this->request->getPost();
         $newMovieId = model('MovieModel')->createMovie($data);
         if($newMovieId) {
+
+            // Gestion des Images
             $file = $this->request->getFile('movie_image');
             if($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
                 $mediaData = [
                     'entity_type' => "movie",
                     'entity_id' => $newMovieId,
                 ];
-                $uploadResult = upload_file($file, 'movie_preview', $data['title'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
+                $uploadResult = upload_file($file, 'movie_preview', $data['title'], $mediaData, false, ['image/jpeg', 'image/png','image/jpg']);
                 if(is_array($uploadResult)&& $uploadResult['status'] === 'error') {
                     $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
                     $this->redirect("admin/movie");
                 }
             }
+
+            //Gestion des Catégories
+            $data_categ = [];
+            if(isset($data['categories'])) {
+                foreach($data['categories'] as $c) {
+                    $categ = [];
+                    $categ['movie_id'] = $newMovieId;
+                    $categ['category_id'] = $c;
+                    $data_categ[] = $categ;
+                }
+            } else {
+                $data_categ = [ ['movie_id' => $newMovieId, 'category_id' => 1] ];
+            }
+            model('CategoryMovieModel')->insertMultipleCategories($data_categ);
+
             $this->success('Film Ajouté');
         } else {
             $this->error("Erreur lors de l'ajout du film");
@@ -52,6 +69,8 @@ class Movie extends BaseController
     public function postupdate() {
         $data = $this->request->getPost();
         if(model('MovieModel')->updateMovie($data['id'], $data)) {
+
+            // Gestion des Images
             $file = $this->request->getFile('movie_image');
             if($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
                 $old_media = model('MediaModel')->getMediaByEntityIdAndType($data['id'], 'movie');
@@ -59,7 +78,7 @@ class Movie extends BaseController
                     'entity_type' => "movie",
                     'entity_id' => $data['id'],
                 ];
-                $uploadResult = upload_file($file, 'movie_preview', $data['title'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
+                $uploadResult = upload_file($file, 'movie_preview', $data['title'], $mediaData, false, ['image/jpeg', 'image/png','image/jpg']);
                 if(is_array($uploadResult)&& $uploadResult['status'] === 'error') {
                     $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
                     $this->redirect("/admin/movie");
@@ -68,6 +87,40 @@ class Movie extends BaseController
                     model('MediaModel')->deleteMedia($old_media[0]['id']);
                 }
             }
+
+            // Gestion des Catégories
+            if(isset($data['categories'])) {
+                $categ_final = $data['categories'];
+            } else {
+                $categ_final = [];
+            }
+            $categ_initial = model('CategoryMovieModel')->getAllCategoryMovieByIdMovie($data['id']);
+            $categ_initial = array_column($categ_initial, 'category_id');
+            $categ_a_supprimer = array_diff($categ_initial, $categ_final);
+            $categ_a_ajouter = array_diff($categ_final, $categ_initial);
+            $data_categ = [];
+            if($categ_a_supprimer) {
+                foreach($categ_a_ajouter as $c) {
+                    $categ = [];
+                    $categ['movie_id'] = $data['id'];
+                    $categ['category_id'] = $c;
+                    $data_categ[] = $categ;
+                }
+            } else {
+                if(count($categ_initial) == 0 || count($categ_final) == 0) {
+                    $data_categ = [ ['movie_id' => $data['id'], 'category_id' => 1] ];
+                }
+            }
+            $cmm = model('CategoryMovieModel');
+            if(!(count($categ_initial) == 1 && $categ_initial[0] == 1 ) || count($categ_a_ajouter) != 0) {
+                if(isset($categ_a_supprimer) && $categ_a_supprimer) {
+                    $cmm->deleteMultipleCategories($data['id'], $categ_a_supprimer);
+                }
+                if(count($data_categ) !=0) {
+                    $cmm->insertMultipleCategories($data_categ);
+                }
+            }
+
             $this->success('Fiche du Film Modifié');
         } else {
             $this->error("Erreur lors de la modification de la fiche du film");
