@@ -11,6 +11,10 @@ class AddAdminUser extends Migration
         // Insérer un utilisateur administrateur par défaut
         $data = [
             'username'     => 'admin',
+            'firstname'    => 'Admin',
+            'lastname'     => 'Admin',
+            'phone' => "+3356666666",
+            'dob' => "1998-07-12",
             'email'        => 'admin@admin.fr',
             'password'     => password_hash('admin', PASSWORD_DEFAULT),
             'id_permission' => 1, // Id de la permission Administrateur
