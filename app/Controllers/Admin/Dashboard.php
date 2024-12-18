@@ -10,7 +10,8 @@ class Dashboard extends BaseController
 protected $require_auth = true;
     public function getIndex(): string
     {
-        return $this->view('/admin/dashboard/index.php', [], true);
+        $infosUser = model('UserModel')->countUserByPermission();
+        return $this->view('/admin/dashboard/index.php', ['infosUser' => $infosUser], true);
     }
 
     public function getTest() {

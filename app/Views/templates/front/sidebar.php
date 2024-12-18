@@ -1,6 +1,6 @@
 <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
     <div class="container">
-        <a class="navbar-brand" href="#"><img src="<?= base_url('/assets/brand/logo-bleu.svg') ?>" class="sidebar-brand-narrow" _width="32" height="32" alt="Code_PopCorn" /> Code_PopCorn</a>
+        <a class="navbar-brand" href=""><img src="<?= base_url('/assets/brand/logo666.png') ?>" class="sidebar-brand-narrow" _width="32" height="32" alt="Code_PopCorn" /> Code_PopCorn</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,14 +36,13 @@
                 } ?>
             </ul>
         </div>
-        <form class="" method="POST" action="<?= base_url("theater/theater"); ?>">
-                <select class="form-select-sm me-2" name="theater_id">
-                    <option>Aucun Cinéma Sélectionné</option>
+        <form class="theaters-id" method="POST" id="formTheater" action="<?= base_url("theater/theater"); ?>">
+                <select class="form-select-sm me-2" name="theater_id" id="theater_id">
+                    <option value="">Aucun Cinéma Sélectionné</option>
                     <?php foreach($theaters as $t){ ?>
                         <option value="<?= $t['id']; ?>" <?= isset($theater) && $theater['id']==$t['id'] ? "selected" : ""; ?>><?= $t['name']; ?></option>
                     <?php } ?>
                 </select>
-                <button type="submit" class="btn btn-sm btn-primary me-2">Valider</button>
         </form>
         <select id="search-movie-head" class="form-control me-2 w-25" name="item">LOL</select>
 

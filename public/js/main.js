@@ -69,7 +69,7 @@ $(document).ready(function() {
     });
     $(document).ready(function () {
         //Chargement de l'image (unique ou multiple) lors de l'upload pour la previsualisation
-        $('#image').change(function (event) {
+        $('#image').change(function (event) {f
             let previewsContainer = $('#preview'); // L'élément contenant toutes les prévisualisations
             previewsContainer.empty(); // Vider le conteneur pour éviter d'accumuler les anciennes prévisualisations
 
@@ -98,5 +98,8 @@ $(document).ready(function() {
                 previewsContainer.text('Aucun fichier sélectionné.'); // Message si aucun fichier
             }
         });
+    });
+    $('#theater_id').on('change', function() {
+        document.getElementById("formTheater").submit();
     });
 });

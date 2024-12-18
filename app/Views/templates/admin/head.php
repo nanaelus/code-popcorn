@@ -47,6 +47,7 @@
     <script src="<?= base_url('/js/tinymce/tinymce.min.js') ?>"></script>
     <script type="text/javascript">var base_url = "<?= base_url(); ?>";</script>
     <script src="<?= base_url('/js/main.js') ?>"></script>
+    <script src="<?= base_url('/js/konami.js') ?>"></script>
 
 
     <script>
