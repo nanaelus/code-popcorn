@@ -4,7 +4,7 @@
         <a href="<?= base_url('/admin/auditorium/new'); ?>"><i class="fa-solid fa-user-plus"></i></a>
     </div>
     <div class="card-body">
-        <table class="table table-sm table-hover" id="tableAuditorium">
+        <table class="table table-hover" id="tableAuditorium">
             <thead>
             <tr>
                 <th>ID</th>
