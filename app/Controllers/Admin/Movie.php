@@ -147,4 +147,46 @@ class Movie extends BaseController
         }
         $this->redirect('/admin/movie');
     }
+
+    public function getcategory($id = null) {
+        if($id == null) {
+            return $this->view('admin/category/index', [], true);
+        }
+        if($id == "new") {
+            return $this->view('admin/category/category', [], true);
+        }
+        $categ = model('CategoryModel')->getCategoryById($id);
+        if($categ) {
+            return $this->view('admin/category/category', ['categ' => $categ], true);
+        }
+    }
+
+    public function postcreatecategory(){
+        $data = $this->request->getPost();
+        if(model('CategoryModel')->createCategory($data)) {
+            $this->success('Catégorie Créee');
+        } else {
+            $this->error('Erreur lors de la création de la catégorie');
+        }
+        return $this->redirect('/admin/movie/category');
+    }
+
+    public function postupdatecategory() {
+        $data = $this->request->getPost();
+        if(model('CategoryModel')->updateCategory($data['id'], $data)) {
+            $this->success('Catégorie Modifiée');
+        } else {
+            $this->error('Erreur lors de la modification de la catégorie');
+        }
+        return $this->redirect('/admin/movie/category');
+    }
+
+    public function getdeletecategory($id) {
+        if(model('CategoryModel')->deleteCategory($id)){
+            $this->success('Catégorie Supprimée');
+        } else {
+            $this->error('Erreur lors de la suppression de la catégorie');
+        }
+        return $this->redirect('admin/movie/category');
+    }
 }

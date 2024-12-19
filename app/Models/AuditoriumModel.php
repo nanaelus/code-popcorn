@@ -68,7 +68,9 @@ class AuditoriumModel extends Model
         $builder->join('theater', 'theater.id = auditorium.theater_id', "left");
         // Recherche
         if ($searchValue != null) {
-            $builder->like('name', $searchValue);
+            $builder->like('auditorium.name', $searchValue);
+            $builder->orLike('auditorium.id', $searchValue);
+            $builder->orLike('theater.name', $searchValue);
         }
 
         // Tri
@@ -84,7 +86,6 @@ class AuditoriumModel extends Model
     public function getTotal()
     {
         $builder = $this->builder();
-        $builder->select('auditorium.*, theater.name as theater_name');
         $builder->join('theater', 'theater.id = auditorium.theater_id', "left");
         return $builder->countAllResults();
     }
@@ -95,7 +96,9 @@ class AuditoriumModel extends Model
         $builder->select('auditorium.*, theater.name as theater_name');
         $builder->join('theater', 'theater.id = auditorium.theater_id', "left");
         if (!empty($searchValue)) {
-            $builder->like('name', $searchValue);
+            $builder->like('auditorium.name', $searchValue);
+            $builder->orLike('auditorium.id', $searchValue);
+            $builder->orLike('theater.name', $searchValue);
         }
 
         return $builder->countAllResults();

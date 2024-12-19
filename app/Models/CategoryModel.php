@@ -36,4 +36,39 @@ class CategoryModel extends Model
     public function getAllCategories() {
         return $this->findAll();
     }
+
+    public function getCategoryByID($id) {
+        return $this->find($id);
+    }
+
+    public function createCategory($data) {
+        $data['slug'] = $this->generateUniqueSlug($data['name']);
+        return $this->insert($data);
+    }
+
+    public function updateCategory($id,$data) {
+        $data['slug'] = $this->generateUniqueSlug($data['name']);
+        return $this->update($id, $data);
+    }
+
+    private function generateUniqueSlug($name)
+    {
+        $slug = generateSlug($name);
+        $builder = $this->builder();
+        $count = $builder->where('slug', $slug)->countAllResults();
+        if ($count === 0) {
+            return $slug;
+        }
+        $i = 1;
+        while ($count > 0) {
+            $newSlug = $slug . '-' . $i;
+            $count = $builder->where('slug', $newSlug)->countAllResults();
+            $i++;
+        }
+        return $newSlug;
+    }
+
+    public function deleteCategory($id) {
+        return $this->delete($id);
+    }
 }

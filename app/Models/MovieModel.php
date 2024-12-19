@@ -59,6 +59,7 @@ class MovieModel extends Model
         if ($searchValue != null) {
             $builder->like('title', $searchValue);
             $builder->orLike('release', $searchValue);
+            $builder->orLike('movie.id', $searchValue);
             $builder->orLike('rating', $searchValue);
             $builder->orLike('description', $searchValue);
         }
@@ -89,6 +90,7 @@ class MovieModel extends Model
         if (!empty($searchValue)) {
             $builder->like('title', $searchValue);
             $builder->orLike('release', $searchValue);
+            $builder->orLike('movie.id', $searchValue);
             $builder->orLike('rating', $searchValue);
             $builder->orLike('description', $searchValue);
         }

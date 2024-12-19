@@ -93,6 +93,8 @@ class TheaterModel extends Model
         // Recherche
         if ($searchValue != null) {
             $builder->like('name', $searchValue);
+            $builder->orLike('city.label', $searchValue);
+            $builder->orLike('theater.id', $searchValue);
         }
 
         // Tri
@@ -108,20 +110,20 @@ class TheaterModel extends Model
     public function getTotal()
     {
         $builder = $this->builder();
-        $builder->select('theater.*, city.label as city_name');
         $builder->join('city', 'city.id = theater.city_id', "left");
         return $builder->countAllResults();
     }
 
     public function getFiltered($searchValue)
     {
-        $builder = $this->builder();
-        $builder->select('theater.*, city.label as city_name');
-        $builder->join('city', 'city.id = theater.city_id', "left");
+        $this->select('theater.id, theater.name, theater.phone, theater.email, city.label as city_name');
+        $this->join('city', 'city.id = theater.city_id', "left");
         if (!empty($searchValue)) {
-            $builder->like('name', $searchValue);
+            $this->like('name', $searchValue);
+            $this->orLike('city.label', $searchValue);
+            $this->orLike('theater.id', $searchValue);
         }
 
-        return $builder->countAllResults();
+        return $this->countAllResults();
     }
 }

@@ -62,6 +62,15 @@ class ShowingModel extends Model
         // Recherche
         if ($searchValue != null) {
             $builder->like('date', $searchValue);
+            $builder->orLike('showing.id', $searchValue);
+            $builder->orLike('showing.description', $searchValue);
+            $builder->orLike('movie.title', $searchValue);
+            $builder->orLike('theater.name', $searchValue);
+            $builder->orLike('auditorium.name', $searchValue);
+            $builder->orLike('ts.name', $searchValue);
+            $builder->orLike('version', $searchValue);
+            $builder->orLike('price.name', $searchValue);
+
         }
 
         // Tri
@@ -97,6 +106,15 @@ class ShowingModel extends Model
         $builder->join('price', 'price.id = showing.price_id', 'left');
         if (!empty($searchValue)) {
             $builder->like('date', $searchValue);
+            $builder->orLike('showing.id', $searchValue);
+            $builder->orLike('showing.description', $searchValue);
+            $builder->orLike('movie.title', $searchValue);
+            $builder->orLike('theater.name', $searchValue);
+            $builder->orLike('auditorium.name', $searchValue);
+            $builder->orLike('ts.name', $searchValue);
+            $builder->orLike('version', $searchValue);
+            $builder->orLike('price.name', $searchValue);
+
         }
 
         return $builder->countAllResults();

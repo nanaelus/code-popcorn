@@ -148,6 +148,7 @@ class UserModel extends Model
             $builder->like('username', $searchValue);
             $builder->orLike('email', $searchValue);
             $builder->orLike('user_permission.name', $searchValue);
+            $builder->orLike('user.id', $searchValue);
         }
 
         // Tri
@@ -179,6 +180,7 @@ class UserModel extends Model
             $builder->like('username', $searchValue);
             $builder->orLike('email', $searchValue);
             $builder->orLike('user_permission.name', $searchValue);
+            $builder->orLike('user.id', $searchValue);
         }
 
         return $builder->countAllResults();
