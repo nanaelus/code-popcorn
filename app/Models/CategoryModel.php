@@ -14,24 +14,7 @@ class CategoryModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['name','slug'];
 
-    protected bool $allowEmptyInserts = false;
-    protected bool $updateOnlyChanged = true;
 
-    protected array $casts = [];
-    protected array $castHandlers = [];
-
-
-
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
 
     public function getAllCategories() {
         return $this->findAll();
@@ -51,6 +34,51 @@ class CategoryModel extends Model
         return $this->update($id, $data);
     }
 
+    public function deleteCategory($id) {
+        return $this->delete($id);
+    }
+
+    public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection)
+    {
+        $builder = $this->builder();
+        // Recherche
+        if ($searchValue != null) {
+            $builder->like('id', $searchValue);
+            $builder->orLike('name', $searchValue);
+            $builder->orLike('slug', $searchValue);
+        }
+
+        // Tri
+        if ($orderColumnName && $orderDirection) {
+            $builder->orderBy($orderColumnName, $orderDirection);
+        }
+
+        $builder->limit($length, $start);
+
+        return $builder->get()->getResultArray();
+    }
+
+    public function getTotal()
+    {
+        $builder = $this->builder();
+        return $builder->countAllResults();
+    }
+
+    public function getFiltered($searchValue)
+    {
+        $builder = $this->builder();
+        $builder->select('movie.*, media.file_path as preview_url');
+
+        if (!empty($searchValue)) {
+            $builder->like('id', $searchValue);
+            $builder->orLike('name', $searchValue);
+            $builder->orLike('slug', $searchValue);
+
+        }
+
+        return $this->countAllResults();
+    }
+
     private function generateUniqueSlug($name)
     {
         $slug = generateSlug($name);
@@ -68,7 +96,4 @@ class CategoryModel extends Model
         return $newSlug;
     }
 
-    public function deleteCategory($id) {
-        return $this->delete($id);
-    }
 }

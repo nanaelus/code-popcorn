@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 
 class Movie extends BaseController
 {
+    protected $require_auth = true;
+    protected $requiredPermissions = ['administrateur'];
     public function getindex($id = null)
     {
         if($id == null) {
@@ -182,10 +184,14 @@ class Movie extends BaseController
     }
 
     public function getdeletecategory($id) {
-        if(model('CategoryModel')->deleteCategory($id)){
-            $this->success('Catégorie Supprimée');
+        if($id == 1) {
+            $this->error('Impossible de supprimer cette catégorie');
         } else {
-            $this->error('Erreur lors de la suppression de la catégorie');
+            if(model('CategoryModel')->deleteCategory($id)){
+                $this->success('Catégorie Supprimée');
+            } else {
+                $this->error('Erreur lors de la suppression de la catégorie');
+            }
         }
         return $this->redirect('admin/movie/category');
     }

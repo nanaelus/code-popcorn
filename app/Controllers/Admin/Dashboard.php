@@ -7,7 +7,8 @@ use App\Controllers\BaseController;
 class Dashboard extends BaseController
 {
     protected $title      = 'Dashboard';
-protected $require_auth = true;
+    protected $require_auth = true;
+    protected $requiredPermissions = ['administrateur'];
     public function getIndex(): string
     {
         $infosUser = model('UserModel')->countUserByPermission();
