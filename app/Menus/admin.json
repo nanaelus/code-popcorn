@@ -7,7 +7,7 @@
     "class": "main-menu-accueil"
   },
   "gestion": {
-    "title": "gestion",
+    "title": "Gestion",
     "url" : "/theater",
     "perm" : "none",
     "icon": "<i class=\"nav-icon fa-solid fa-clapperboard\"></i>",
@@ -29,7 +29,13 @@
       },
       "movies": {
         "title": "Films",
-        "url": "/admin/movie",
+        "url": "admin/movie",
+        "perm": "none",
+        "icon": "<i class=\"nav-icon fa-solid fa-film\"></i>"
+      },
+      "categories" :{
+        "title": "Catégories",
+        "url": "admin/movie/category",
         "perm": "none",
         "icon": "<i class=\"nav-icon fa-solid fa-film\"></i>"
       },
