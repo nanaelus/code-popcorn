@@ -7,6 +7,8 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Auditorium extends BaseController
 {
+    protected $require_auth = true;
+    protected $requiredPermissions = ['administrateur'];
     public function getindex($id = null)
     {
         if ($id == null) {
