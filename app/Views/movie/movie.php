@@ -16,7 +16,7 @@
                        </div>
                        <div class="col-md-8">
                            <div class="card h-100">
-                               <div class="row h-25">
+                               <div class="row mt-2 h-25">
                                    <div class="col ms-2">
                                        Date de sortie : <?= $movie['release']; ?>
                                    </div>
