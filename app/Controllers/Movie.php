@@ -20,8 +20,9 @@ class Movie extends BaseController
         }
         $movie = model('MovieModel')->getMovieBySlug($slug);
         if($movie) {
+            $categories = model('CategoryMovieModel')->getCategoriesByMovieSlug($slug);
             $showings = model('ShowingModel')->getShowingByMovieSlug($slug);
-            return $this->view('movie/movie', ['movie' => $movie, 'showings' => $showings]);
+            return $this->view('movie/movie', ['movie' => $movie, 'showings' => $showings, 'categories' => $categories]);
         } else {
             $this->error('Pas de film correspondant');
             $this->redirect('');
