@@ -56,6 +56,9 @@ if($controller == '' || 'home'){
                         <div class="d-grid mt-3">
                             <button class="btn btn-primary" type="submit">Valider mes filtres</button>
                         </div>
+                        <div class="d-grid mt-3">
+                            <button class="btn btn-primary" type="button" id="nowel">Nowel</button>
+                        </div>
                     </form>
                 </div>
             </div>
