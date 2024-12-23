@@ -27,7 +27,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
                 <div class="modal-body">
-                    <form method="POST" action="<?= isset($categ) ? base_url('admin/movie/updatecategory') : base_url('/admin/movie/createcategory') ?>">
+                    <form method="POST" action="<?= base_url('admin/movie/updatecategory'); ?>" id="formModal">
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="name" class="form-label">
@@ -39,8 +39,8 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
                 </div>
             </form>
         </div>
@@ -71,7 +71,12 @@
                         return `<span class='name-categ'>${data}</span>`;
                     }
                 },
-                {"data" : "slug"},
+                {
+                    data : 'slug',
+                    render : function(data) {
+                        return `<span class='slug-categ'>${data}</span>`;
+                    }
+                },
                 {
                     data : "id",
                     sortable : false,
@@ -97,6 +102,27 @@
             let categ_name = $(this).closest('tr').find(".name-categ").html();
             $('.modal input[name="id"]').val(categ_id);
             $('.modal input[name="name"]').val(categ_name);         
+        });
+        $('#formModal').on('submit', function(event){
+            event.preventDefault();
+            let categ_id = $('.modal input[name="id"]').val();
+            let categ_name = $('.modal input[name="name"]').val()
+            console.log(categ_id + " " + categ_name);
+            $.ajax({
+                type : "POST",
+                url: $(this).attr("action"),
+                data : {
+                    id : categ_id,
+                    name : categ_name,
+                },
+                success : function(data) {
+                    var json = JSON.parse(data);
+                    const ligne = $('#'+categ_id).closest('tr');
+                    ligne.find('.slug-categ').html(json.slug);
+                    ligne.find('.name-categ').html(json.name);
+                    modalType.hide();
+                }
+            })
         })
     })
 </script>
