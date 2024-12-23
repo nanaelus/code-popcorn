@@ -131,7 +131,7 @@ class MovieSeeder extends Seeder
                 "release" => "2007-05-01",
                 "duration" => "139",
                 "rating" => "Tous publics",
-                "description" => "",
+                "description" => "Cinq ans ont passé depuis la mort du Bouffon vert et trois années depuis celle du Docteur Octopus. Peter Parker a retrouvé un équilibre de vie et veut se marier avec Mary Jane. Pendant une nuit au parc, alors que les deux jeunes amoureux sont ensemble, une petite météorite tombe tout près du lieu où ils se trouvent et laisse s'échapper une matière visqueuse : un symbiote qui s'attache discrètement à la mobylette de Peter.",
                 "slug" => "spider-man-3"
             ],
             [

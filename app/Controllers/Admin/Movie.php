@@ -180,7 +180,7 @@ class Movie extends BaseController
         } else {
             $this->error('Erreur lors de la modification de la catégorie');
         }
-        return $this->redirect('/admin/movie/category');
+        return json_encode(model('CategoryModel')->getCategoryById($data['id']));
     }
 
     public function getdeletecategory($id) {
