@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h4>Liste des Catégories</h4>
-        <a href="<?= base_url('admin/movie/category/new'); ?>" alt="Création de catégorie"><i class="fa-solid fa-circle-plus"></i></a>
+        <a href="<?= base_url('admin/movie/category/new'); ?>" alt="Création de catégorie"><i class="createchampagne fa-solid fa-circle-plus"></i></a>
     </div>
     <table class="table table-hover" id="tableCategory">
         <thead>
@@ -18,8 +18,36 @@
     </table>
 </div>
 
-<!-- Modal -->
-<div class="modal" tabindex="-1" id="modalType">
+<!-- Modal Create Category-->
+<div class="modal createmodal" tabindex="-1" id="modalType2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Création d'une Catégorie</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="<?= base_url('admin/movie/createcategory'); ?>" id="formModal2">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                Nom de la Catégorie
+                            </label>
+                            <input type="text" name="name" class="form-control" value="" placeholder="Entrez le nom" >
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Update Category-->
+<div class="modal updatemodal" tabindex="-1" id="modalType">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -100,14 +128,13 @@
             modalType.show();
             let categ_id = $(this).attr('id');
             let categ_name = $(this).closest('tr').find(".name-categ").html();
-            $('.modal input[name="id"]').val(categ_id);
-            $('.modal input[name="name"]').val(categ_name);         
+            $('.updatemodal input[name="id"]').val(categ_id);
+            $('.updatemodal input[name="name"]').val(categ_name);
         });
         $('#formModal').on('submit', function(event){
             event.preventDefault();
-            let categ_id = $('.modal input[name="id"]').val();
-            let categ_name = $('.modal input[name="name"]').val()
-            console.log(categ_id + " " + categ_name);
+            let categ_id = $('.updatemodal input[name="id"]').val();
+            let categ_name = $('.updatemodal input[name="name"]').val();
             $.ajax({
                 type : "POST",
                 url: $(this).attr("action"),
@@ -123,6 +150,28 @@
                     modalType.hide();
                 }
             })
-        })
+        });
+        const modalType2 = new bootstrap.Modal('#modalType2');
+        $('body').on('click', '.createchampagne', function(event) {
+            event.preventDefault();
+            modalType2.show();
+        });
+        $('#formModal2').on('submit', function(event){
+            event.preventDefault();
+            let categ_name = $('.createmodal input[name="name"]').val();
+            $.ajax({
+                type : "POST",
+                url: $(this).attr("action"),
+                data : {
+                    name : categ_name,
+                },
+                success : function(data) {
+                    location.reload();
+                }
+            });
+            // Cache la modale après l'ajout de la catégorie
+            modalType2.hide();
+
+        });
     })
 </script>

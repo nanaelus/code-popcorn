@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
+<nav class="navbar fixed-top navbar-expand-lg" style="background-color : #feecd5">
     <div class="container">
         <a class="navbar-brand" href=""><img src="<?= base_url('/assets/brand/logo666.png') ?>" class="sidebar-brand-narrow" _width="32" height="32" alt="Code_PopCorn" /> Code_PopCorn</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

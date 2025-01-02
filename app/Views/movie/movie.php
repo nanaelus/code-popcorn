@@ -4,7 +4,7 @@
                <div class="card-header">
                    <h3><?= $movie['title']; ?></h3>
                </div>
-               <div class="card-body">
+               <div class="card-body" style="background-color: #f2eade">
                    <div class="row">
                        <div class="col-md-4">
                            <div class="card h-100 text-center">
@@ -47,7 +47,7 @@
                        <div class="card-footer d-flex flex-wrap justify-content-between">
                        <?php foreach($showings as $showing) { ?>
                            <div class="mb-2">
-                               <div class="card" style="width: 25em;">
+                               <div class="card" style="width: 25em; background-color: #fff5e7">
                                     <?php $date = strtotime($showing['date']); ?>
                                    <div class="ms-1">
                                        Le : <?= date('d/m/Y',$date); ?> à <?= date('H:i',$date); ?>

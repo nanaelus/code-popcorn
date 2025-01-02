@@ -166,11 +166,10 @@ class Movie extends BaseController
     public function postcreatecategory(){
         $data = $this->request->getPost();
         if(model('CategoryModel')->createCategory($data)) {
-            $this->success('Catégorie Créee');
+            return $this->success('Catégorie Créee');
         } else {
             $this->error('Erreur lors de la création de la catégorie');
         }
-        return $this->redirect('/admin/movie/category');
     }
 
     public function postupdatecategory() {

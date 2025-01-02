@@ -11,3 +11,12 @@
 .media {
     aspect-ratio: 1/1; /* Maintenir un carré */
 }
+body {
+    background-color: #f2eade;
+}
+.card-header {
+    background-color: #feecd5;
+}
+.card-footer {
+    background-color: #feecd5;
+}

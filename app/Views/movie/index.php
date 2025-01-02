@@ -9,7 +9,7 @@ if($controller == '' || 'home'){
     <div class="col-md-3">
 
         <!--Filtres -->
-        <div class="card h-100">
+        <div class="card h-auto">
             <div class="card-header">Filtre de recherche</div>
                 <div class="card-body">
                     <form method="get" action="<?= base_url($controller); ?>">
