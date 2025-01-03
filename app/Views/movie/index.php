@@ -56,9 +56,6 @@ if($controller == '' || 'home'){
                         <div class="d-grid mt-3">
                             <button class="btn btn-primary" type="submit">Valider mes filtres</button>
                         </div>
-                        <div class="d-grid mt-3">
-                            <button class="btn btn-primary" type="button" id="nowel">Nowel</button>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -106,6 +103,9 @@ if($controller == '' || 'home'){
 </div>
 </div>
 
+<a class="link-underline-opacity-0 position-fixed bottom-0 end-0 m-4" data-bs-toggle="offcanvas" href="<?=base_url('#offcanvasItem')?>" role="button" aria-controls="offcanvasExample" id="nowel" title="Un problème? Contactez nous!">
+    <i class="fa-solid fa-paper-plane fa-2xl"></i>
+</a>
 
 <!-- Style Etagère, à revoir -->
 <style>
