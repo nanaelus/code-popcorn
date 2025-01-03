@@ -11,7 +11,7 @@ class Theater extends BaseController
     public function getindex($id = null )
     {
         if($id == null) {
-            $allTheaters = model('TheaterModel')->getAllTheaters();
+            $allTheaters = model('TheaterModel')->getAllTheaters(12);
             return $this->view('admin/theater/index', ['allTheaters' => $allTheaters], true);
         }
         if($id == 'new') {

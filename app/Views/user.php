@@ -2,7 +2,7 @@
     <div class="col">
         <form method="POST" action="<?= base_url('user/update'); ?>" enctype="multipart/form-data">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header front">
                     <div class="card-title text-center h3">
                         Mon Profil
                     </div>
@@ -56,7 +56,7 @@
                         <input class="form-control" type="file" name="profile_image" id="image">
                     </div>
                 </div>
-                <div class="card-footer text-end">
+                <div class="card-footer front text-end">
                     <input type="hidden" name="id" value="<?= $user->id ?>">
                     <input type="hidden" name="id_permission" value="<?= $user->id_permission ?>">
                     <button type="submit" class="btn btn-primary ">Enregister</button>

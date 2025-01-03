@@ -11,7 +11,7 @@ class Theater extends BaseController
     public function getindex($id = null)
     {
         if($id == null) {
-            $theaters = model('TheaterModel')->getAllActiveTheater();
+            $theaters = model('TheaterModel')->getAllTheaters(6);
             return $this->view('theater/index', ['theaters' => $theaters]);
         }
         if($id) {
@@ -35,5 +35,12 @@ class Theater extends BaseController
         } else {
             $this->redirect('theater');
         }
+    }
+
+    //Fonction permettant de mettre les infos d'un cinéma en session pour les réutiliser partout
+    public function getajaxloadmore(){
+        $limit = $this->request->getGet('limit');
+        $offset = $this->request->getGet('offset');
+        return json_encode(model('TheaterModel')->getAllTheaters($limit,$offset));
     }
 }

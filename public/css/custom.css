@@ -14,9 +14,6 @@
 body {
     background-color: #f2eade;
 }
-.card-header {
-    background-color: #feecd5;
-}
-.card-footer {
+.front {
     background-color: #feecd5;
 }

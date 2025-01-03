@@ -44,8 +44,10 @@ class TheaterModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getAllTheaters() {
-        return $this->findAll();
+    public function getAllTheaters($limit = null, $offset = 0) {
+        $this->select('theater.*, media.file_path as preview_url');
+        $this->join('media', 'theater.id= media.entity_id AND media.entity_type = "theater"', 'left');
+        return $this->findAll($limit, $offset);
     }
 
     public function createTheater($data) {
@@ -76,13 +78,12 @@ class TheaterModel extends Model
         return $builder->get()->getRowArray();
     }
 
-    public function getAllActiveTheater() {
-        $builder = $this->builder();
-        $builder->select('theater.*, city.label as city_name, media.file_path as preview_url');
-        $builder->join('media', 'theater.id= media.entity_id AND media.entity_type = "theater"', 'left');
-        $builder->join('city', 'city.id = theater.city_id');
-        $builder->where('deleted_at', null);
-        return $builder->get()->getResultArray();
+    public function getAllActiveTheater($limit = null, $offset = 0) {
+        $this->select('theater.*, city.label as city_name, media.file_path as preview_url');
+        $this->join('media', 'theater.id= media.entity_id AND media.entity_type = "theater"', 'left');
+        $this->join('city', 'city.id = theater.city_id');
+        $this->where('deleted_at', null);
+        return $this->get()->getResultArray($limit, $offset);
     }
 
     public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection)
@@ -123,7 +124,6 @@ class TheaterModel extends Model
             $this->orLike('city.label', $searchValue);
             $this->orLike('theater.id', $searchValue);
         }
-
         return $this->countAllResults();
     }
 }
