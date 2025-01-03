@@ -7,13 +7,13 @@
                 </div>
                 <div class="card-body d-flex flex-wrap justify-content-between theaters">
                     <?php foreach ($theaters as $theater): ?>
-                        <div class="card mb-3 theater" style="width: 25em;" data-id="<?= $theater['id'] ?>">
+                        <div class="card mb-3 theater" style="width: 25em;" data-id="<?= $theater['slug'] ?>">
                             <div class="card-header front">
                                 <?= $theater["name"]; ?>
                             </div>
                             <div class="card-body d-flex justify-content-center">
                             <span>
-                                <a href="<?= base_url('theater/' . $theater['id']); ?>">
+                                <a href="<?= base_url('theater/' . $theater['slug']); ?>">
                                     <?php
                                     if($theater['preview_url']) { ?>
                                         <img style= width:300px height="300px" src="<?= base_url($theater['preview_url']) ?>">
@@ -66,13 +66,13 @@
                             var img = baseUrl + 'assets/img/theater/default.jpg';
                         }
                         const theaterElement = `
-                            <div class="card mb-3 theater" style="width: 25em;" data-id="${theater.id}">
+                            <div class="card mb-3 theater" style="width: 25em;" data-id="${theater.slug}">
                                 <div class="card-header front">
                                     ${theater.name}
                                 </div>
                                 <div class="card-body d-flex justify-content-center">
                                     <span>
-                                        <a href="${baseUrl + 'theater/' + theater.id}">
+                                        <a href="${baseUrl + 'theater/' + theater.slug}">
                                                 <img style= width:300px height="300px" src="${img}">
                                         </a>
                                     </span>

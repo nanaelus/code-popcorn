@@ -50,6 +50,13 @@ class TheaterModel extends Model
         return $this->findAll($limit, $offset);
     }
 
+    public function getTheaterBySlug($slug) {
+        $this->select('theater.*, city.label as city_name, media.file_path as preview_url');
+        $this->join('media', 'theater.id= media.entity_id AND media.entity_type = "theater"', 'left');
+        $this->join('city', 'city.id = theater.city_id');
+        $this->where('theater.slug', $slug);
+        return $this->get()->getRowArray();
+    }
     public function createTheater($data) {
         return $this->insert($data);
     }

@@ -34,6 +34,7 @@ class TableMovie extends Migration
             'slug' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
+                'unique'     => true,
             ],
             'rating' => [
                 'type' => 'ENUM',
@@ -53,6 +54,7 @@ class TableMovie extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('movie');
+
     }
 
     public function down()

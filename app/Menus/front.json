@@ -1,7 +1,7 @@
 {
     "movietheater": {
       "title": "Cinémas",
-      "url": "theater",
+      "url": "theater//tout-nos-cinemas",
       "perm": "none",
       "icon": "<i class=\"nav-icon fa-solid fa-ticket\"></i>",
       "class": ""

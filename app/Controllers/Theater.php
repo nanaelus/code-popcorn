@@ -8,20 +8,23 @@ use CodeIgniter\HTTP\ResponseInterface;
 class Theater extends BaseController
 {
     protected $require_auth = false;
-    public function getindex($id = null)
+    public function getindex($slug = "tout-nos-cinemas")
     {
-        if($id == null) {
+        if($slug == "tout-nos-cinemas") {
             $theaters = model('TheaterModel')->getAllTheaters(6);
             return $this->view('theater/index', ['theaters' => $theaters]);
         }
-        if($id) {
-            $theater = model('TheaterModel')->getTheaterById($id);
+        if($slug == null) {
+            $this->redirect('theater/tout-nos-cinemas');
+        }
+        if($slug) {
+            $theater = model('TheaterModel')->getTheaterBySlug($slug);
             if($theater) {
                 $showing = model('ShowingModel')->getShowingByTheaterId($theater['id']);
             return $this->view('theater/theater', ['theater' => $theater, 'showing' => $showing]);
             } else {
                 $this->error('Mauvaise pioche');
-                $this->redirect('theater');
+                $this->redirect('theater/tout-nos-cinemas');
             }
         }
     }
@@ -31,7 +34,7 @@ class Theater extends BaseController
         $theater = model('TheaterModel')->getTheaterById($theaterId);
         if($theater){
         $this->session->set('theater', $theater);
-        $this->redirect('theater/'. $theater['id']);
+        $this->redirect('theater/'. $theater['slug']);
         } else {
             $this->redirect('theater');
         }

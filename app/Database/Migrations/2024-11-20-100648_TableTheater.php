@@ -35,6 +35,12 @@ class TableTheater extends Migration
                 'constraint' => 11,
                 'unsigned' => true,
             ],
+            'slug' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'unique'     => true,
+                'null'       => true,
+            ],
             'deleted_at' => [
                 'type' => 'datetime',
                 'null' => true,

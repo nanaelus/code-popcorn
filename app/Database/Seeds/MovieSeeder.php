@@ -117,7 +117,6 @@ class MovieSeeder extends Seeder
             ],
 
 
-
             [
                 "title" => "Spider-Man 2",
                 "release" => "2004-07-14",
@@ -188,7 +187,7 @@ class MovieSeeder extends Seeder
                 "duration" => "113",
                 "rating" => "Tous publics",
                 "description" => "Spider-Man : New Generation suit les aventures de Miles Morales, un adolescent afro-américain et portoricain qui vit à Brooklyn et s’efforce de s’intégrer dans son nouveau collège à Manhattan. Mais la vie de Miles se complique quand il se fait mordre par une araignée radioactive et se découvre des super-pouvoirs : il est désormais capable d’empoisonner ses adversaires, de se camoufler, de coller littéralement aux murs et aux plafonds ; son ouïe est démultipliée... Dans le même temps, le plus redoutable cerveau criminel de la ville, le Caïd, a mis au point un accélérateur de particules nucléaires capable d’ouvrir un portail sur d’autres univers. Son invention va provoquer l’arrivée de plusieurs autres versions de Spider-Man dans le monde de Miles, dont un Peter Parker plus âgé, Spider-Gwen, Spider-Man Noir, Spider-Cochon et Peni Parker, venue d’un dessin animé japonais.",
-                "slug" => "spider-man-new-generation" ],
+                "slug" => "spider-man-new-generation"],
 
             [
                 "title" => "Vaiana la légende du bout du monde",
@@ -256,7 +255,7 @@ class MovieSeeder extends Seeder
             ],
 
 
-            [  "title" => "Pirates des Caraïbes : La Malédiction du Black Pearl",
+            ["title" => "Pirates des Caraïbes : La Malédiction du Black Pearl",
                 "release" => "2003-08-13",
                 "duration" => "143",
                 "rating" => "Tous publics",
@@ -676,8 +675,6 @@ class MovieSeeder extends Seeder
                 "slug" => "imaginary"
             ]
         ];
-
-
         // Insérer les films dans la table movie
         $this->db->table('movie')->insertBatch($data);
     }
