@@ -2,14 +2,14 @@
     <div class="col">
         <h4><?= $theater['name']; ?></h4>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header front">
                 A l'affiche :
             </div>
             <div class="card-body d-flex flex-wrap justify-content-between">
                 <?php if($showing) { ?>
                 <?php foreach ($showing as $show) { ?>
                         <div class="card mb-3" style="width: 25em;">
-                            <div class="card-header h5">
+                            <div class="card-header front h5">
                                 <?= $show['title']; ?>
                             </div>
                             <div class="card-body d-flex justify-content-center">
@@ -23,7 +23,7 @@
                                 </a>
                                 </span>
                             </div>
-                            <div class="card-footer">
+                            <div class="card-footer front">
                                 <?php $date = strtotime($show['date']); ?>
                                 Le : <?= date('d/m/Y',$date); ?> à <?= date('H:i',$date); ?>
                             </div>

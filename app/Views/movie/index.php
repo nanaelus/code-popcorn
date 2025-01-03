@@ -10,7 +10,7 @@ if($controller == '' || 'home'){
 
         <!--Filtres -->
         <div class="card h-auto">
-            <div class="card-header">Filtre de recherche</div>
+            <div class="card-header front">Filtre de recherche</div>
                 <div class="card-body">
                     <form method="get" action="<?= base_url($controller); ?>">
 
@@ -64,7 +64,7 @@ if($controller == '' || 'home'){
     <!--Tous les films ayant une séance d'attribuée ou une release à venir -->
     <div class="col-md-9">
         <div class="card h-100">
-                <div class="card-header">
+                <div class="card-header front">
                     Films en salle actuellement et prochainement
                 </div>
                 <div class="card-body">
@@ -88,7 +88,7 @@ if($controller == '' || 'home'){
                         </div>
                     <?php } ?>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer front text-center">
                     <div class="row">
                         <div class="col">
                             <div class="pagination justify-content-center">

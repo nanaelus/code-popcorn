@@ -1,7 +1,7 @@
     <div class="row">
         <div class="col">
            <div class="card">
-               <div class="card-header">
+               <div class="card-header front">
                    <h3><?= $movie['title']; ?></h3>
                </div>
                <div class="card-body" style="background-color: #f2eade">
@@ -44,7 +44,7 @@
                </div>
                    <?php
                    if($showings) { ?>
-                       <div class="card-footer d-flex flex-wrap justify-content-between">
+                       <div class="card-footer front d-flex flex-wrap justify-content-between">
                        <?php foreach($showings as $showing) { ?>
                            <div class="mb-2">
                                <div class="card" style="width: 25em; background-color: #fff5e7">
@@ -62,7 +62,7 @@
                            </div>
                        <?php }
                    } else { ?>
-                       <div class="card-footer h4 text-center">Pas de Séance Prévue</div>
+                       <div class="card-footer front h4 text-center">Pas de Séance Prévue</div>
                    <?php } ?>
                </div>
            </div>
