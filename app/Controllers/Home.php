@@ -9,10 +9,7 @@ class Home extends BaseController
     {
         $categories = model('CategoryModel')->getAllCategories();
         if($slug == null) {
-            $moviesShowing = model('MovieModel')->getAllMoviesShowing();
-            $perPage = 8;
-            $pager = model('MovieModel')->pager;
-            return $this->view('movie/index', ['movies' => $moviesShowing, 'pager' => $pager, 'categories' => $categories]);
+            $this->redirect('movie/a-l-affiche');
         }
         if($slug == "new") {
             return $this->view('movie/movie');
