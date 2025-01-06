@@ -46,4 +46,23 @@ class Theater extends BaseController
         $offset = $this->request->getGet('offset');
         return json_encode(model('TheaterModel')->getAllTheaters($limit,$offset));
     }
+
+    public function getautocompletetheater() {
+        $searchValue = $this->request->getGet('q'); // Récupère le terme de recherche envoyé par Select2
+
+        // Appelle la méthode de recherche dans le modèle
+        $theaters = model('TheaterModel')->searchTheatersByName($searchValue);
+
+        // Formatage des résultats pour Select2
+        $results = [];
+        foreach ($theaters as $theater) {
+            $results[] = [
+                'id' => $theater['slug'],  // Utilise le slug comme ID pour redirection ultérieure
+                'text' => $theater['name'], // Ce texte sera affiché dans le dropdown de Select2
+            ];
+        }
+
+        // Retourne les résultats sous forme JSON pour Select2
+        return $this->response->setJSON($results);
+    }
 }

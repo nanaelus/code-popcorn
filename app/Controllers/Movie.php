@@ -29,7 +29,7 @@ class Movie extends BaseController
         }
     }
 
-    public function getautocompletecity() {
+    public function getautocompletemovie() {
         $searchValue = $this->request->getGet('q'); // Récupère le terme de recherche envoyé par Select2
 
         // Appelle la méthode de recherche dans le modèle
