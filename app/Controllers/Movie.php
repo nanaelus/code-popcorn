@@ -12,6 +12,9 @@ class Movie extends BaseController
     {
         $categories = model('CategoryModel')->getAllCategories();
         if($slug == null) {
+            $this->redirect('movie/a-l-affiche');
+        }
+        if($slug == "a-l-affiche") {
             $data = $this->request->getGet();
             $perPage = 8;
             $moviesShowing = model('MovieModel')->getAllMoviesFiltered($data, null, $perPage);

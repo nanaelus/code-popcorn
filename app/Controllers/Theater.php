@@ -8,14 +8,14 @@ use CodeIgniter\HTTP\ResponseInterface;
 class Theater extends BaseController
 {
     protected $require_auth = false;
-    public function getindex($slug = "tout-nos-cinemas")
+    public function getindex($slug = null)
     {
+        if($slug == null) {
+            $this->redirect('theater/tout-nos-cinemas');
+        }
         if($slug == "tout-nos-cinemas") {
             $theaters = model('TheaterModel')->getAllTheaters(6);
             return $this->view('theater/index', ['theaters' => $theaters]);
-        }
-        if($slug == null) {
-            $this->redirect('theater/tout-nos-cinemas');
         }
         if($slug) {
             $theater = model('TheaterModel')->getTheaterBySlug($slug);
