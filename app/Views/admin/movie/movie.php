@@ -53,7 +53,7 @@
                     ?>
                     <img class="img-thumbnail me-2"alt="Aperçu de l'image"
                          style="display: <?= isset($movie['preview_url']) ? "block" : "none" ?>; max-width: 100px;"
-                         src="<?= $movieImageUrl ?>">
+                         src="<?= $movieImageUrl ?>" id="test-width">
                 </div>
                 <input class="form-control" type="file" name="movie_image" id="image">
             </div>
