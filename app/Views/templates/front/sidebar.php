@@ -1,3 +1,7 @@
+<?php
+$router = service('router');
+$controller = strtolower(basename(str_replace('\\', '/', $router->controllerName()))); ?>
+
 <nav class="navbar fixed-top navbar-expand-lg" style="background-color : #feecd5">
     <div class="container">
         <a class="navbar-brand" href=""><img src="<?= base_url('/assets/brand/logo666.png') ?>" class="sidebar-brand-narrow" _width="32" height="32" alt="Code_PopCorn" /> Code_PopCorn</a>
@@ -44,7 +48,7 @@
                     <?php } ?>
                 </select>
         </form>
-        <select id="search-movie-head" class="form-control me-2 w-25" name="item">LOL</select>
+        <select id="<?= $controller == 'theater' ? 'search-theater-head' : 'search-movie-head' ;?>" class="form-control me-2 w-25" name="item">LOL</select>
 
         <?php if (isset($user)) { ?>
             <div class="navbar-nav d-flex">

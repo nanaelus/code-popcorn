@@ -133,4 +133,12 @@ class TheaterModel extends Model
         }
         return $this->countAllResults();
     }
+
+    public function searchTheatersByName($searchValue, $limit = 10) {
+        // On effectue la requête sur la base de données
+        $this->db->table('theater');
+        $this->like('name', $searchValue); // On recherche les villes dont le nom contient $searchValue
+        $query = $this->get();
+        return $query->getResultArray(); // Retourne les résultats sous forme de tableau
+    }
 }
