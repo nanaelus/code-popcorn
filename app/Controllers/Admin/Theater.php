@@ -8,6 +8,8 @@ class Theater extends BaseController
 {
     protected $require_auth = true;
     protected $requiredPermissions = ['administrateur'];
+    protected $breadcrumb =  [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Cinémas', 'url' => '']];
+    protected $title = "Gestion des Cinémas";
     public function getindex($id = null )
     {
         if($id == null) {
@@ -15,12 +17,16 @@ class Theater extends BaseController
             return $this->view('admin/theater/index', ['allTheaters' => $allTheaters], true);
         }
         if($id == 'new') {
+            $this->breadcrumb =  [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Cinémas', 'url' => '/admin/theater'],['text' => 'Nouveau Cinéma', 'url' => '']];
+            $this->title = "Page de Création Cinéma";
             return $this->view('admin/theater/theater', [], true);
         }
-        $theater = model('TheaterModel')->getTheaterById($id);
-        if($theater) {
+        $cinema = model('TheaterModel')->getTheaterById($id);
+        if($cinema) {
+            $this->breadcrumb =  [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Cinémas', 'url' => '/admin/theater'],['text' => 'Edition d\'un Cinéma', 'url' => '']];
+            $this->title = "Modification du Cinéma : " . $cinema['name'];
             $auditorium = model('AuditoriumModel')->getAllAuditorium();
-            return $this->view('admin/theater/theater', ['theater' => $theater, 'auditorium' => $auditorium], true);
+            return $this->view('admin/theater/theater', ['cinema' => $cinema, 'auditorium' => $auditorium], true);
         } else {
             $this->error(' Aucun Cinéma associé');
             $this->redirect('admin/theater', [], true);

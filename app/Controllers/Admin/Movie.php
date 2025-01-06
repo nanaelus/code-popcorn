@@ -8,6 +8,8 @@ class Movie extends BaseController
 {
     protected $require_auth = true;
     protected $requiredPermissions = ['administrateur'];
+    protected $breadcrumb =  [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Films','url' => '']];
+    protected $title = "Gestion des Films";
     public function getindex($id = null)
     {
         if($id == null) {
@@ -15,11 +17,15 @@ class Movie extends BaseController
         }
         $categories = model('CategoryModel')->getAllCategories();
         if($id == "new") {
+            $this->breadcrumb = [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Films', 'url' => '/admin/movie'], ['text' => 'Nouveau Film', 'url' => '']];
+            $this->title = 'Nouveau Film';
             return $this->view('/admin/movie/movie', ['categories'=>$categories],true);
         }
         if($id) {
             $movie = model('MovieModel')->getMovieById($id);
             if($movie) {
+                $this->breadcrumb = [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Films', 'url' => '/admin/movie'], ['text' => 'Edition du Film', 'url' => '']];
+                $this->title = 'Edition du Film : ' . $movie['title'];
                 return $this->view('admin/movie/movie', ['movie' => $movie, 'categories' => $categories, 'category_movie' => model('CategoryMovieModel')->getAllCategoriesByIdMovie($id)],true);
             } else {
                 $this->error('Aucun film correspondant à cet ID');
@@ -152,14 +158,11 @@ class Movie extends BaseController
 
     public function getcategory($id = null) {
         if($id == null) {
+            $this->breadcrumb = [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Catégories','url' => '']];
+            $this->title = "Gestion des Catégories";
             return $this->view('admin/category/index', [], true);
-        }
-        if($id == "new") {
-            return $this->view('admin/category/category', [], true);
-        }
-        $categ = model('CategoryModel')->getCategoryById($id);
-        if($categ) {
-            return $this->view('admin/category/category', ['categ' => $categ], true);
+        } else {
+            $this->redirect('/admin/movie/category');
         }
     }
 

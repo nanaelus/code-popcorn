@@ -1,7 +1,7 @@
 <form method="POST" action="<?= isset($movie)? base_url('admin/movie/update') : base_url('admin/movie/create') ; ?>" enctype="multipart/form-data">
     <div class="card">
         <div class="card-header">
-            <?= isset($movie) ? "Modification" : "Ajout" ?> d'un Film
+            <?= isset($movie) ? "Modification du film : " . $movie['title'] : "Ajout d'un Film" ?>
         </div>
         <div class="card-body">
             <input type="hidden" name="id" class="form-control" value="<?= isset($movie) ? $movie['id'] : ""; ?>">

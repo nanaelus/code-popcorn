@@ -9,6 +9,8 @@ class Auditorium extends BaseController
 {
     protected $require_auth = true;
     protected $requiredPermissions = ['administrateur'];
+    protected $breadcrumb =  [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Salles', 'url' => '']];
+    protected $title = 'Gestion des Salles';
     public function getindex($id = null)
     {
         if ($id == null) {
@@ -16,10 +18,14 @@ class Auditorium extends BaseController
         }
         $allTheater = model('TheaterModel')->getAllTheaters();
         if ($id == "new") {
+            $this->breadcrumb =  [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Salles', 'url' => '/admin/auditorium'],['text' => 'Nouvelle Salle', 'url' => '']];
+            $this->title = "Création de Salle";
             return $this->view('admin/theater/auditorium/auditorium.php',['allTheater' => $allTheater], true);
         }
         $auditorium = model('AuditoriumModel')->getAuditoriumById($id);
         if($auditorium){
+            $this->breadcrumb = [['text' => 'Tableau de bord', 'url' => '/admin/dashboard'], ['text' => 'Gestion des Salles', 'url' => '/admin/auditorium'],['text' => 'Edition de la Salle', 'url' => '']];
+            $this->title = "Edition de la Salle : " . $auditorium['name'];
             return $this->view('admin/theater/auditorium/auditorium.php',['auditorium' => $auditorium, 'allTheater' => $allTheater], true);
         } else {
             $this->error('Cette salle n\'existe pas');

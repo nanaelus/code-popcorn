@@ -8,6 +8,7 @@ class User extends BaseController
     protected $require_auth = true;
     protected $requiredPermissions = ['administrateur'];
     protected $breadcrumb =  [['text' => 'Tableau de Bord','url' => '/admin/dashboard'],['text'=> 'Gestion des utilisateurs', 'url' => '/admin/user']];
+    protected $title = "Gestion des Utilisateurs";
     public function getindex($id = null) {
 
         $um = Model("UserModel");
@@ -19,11 +20,13 @@ class User extends BaseController
             $permissions = Model("UserPermissionModel")->getAllPermissions();
             if ($id == "new") {
                 $this->addBreadcrumb('Création d\' un utilisateur','');
+                $this->title = "Ajout d'un utilisateur";
                 return $this->view("/admin/user/user",["permissions" => $permissions, 'cities' => $cities], true);
             }
             $utilisateur = $um->getUserById($id);
             if ($utilisateur) {
                 $this->addBreadcrumb('Modification de ' . $utilisateur['username'], '');
+                $this->title = "Modification de l'utilisateur : " . $utilisateur['username'];
                 return $this->view("/admin/user/user", ["utilisateur" => $utilisateur, "permissions" => $permissions , 'cities' => $cities], true);
             } else {
                 $this->error("L'ID de l'utilisateur n'existe pas");
