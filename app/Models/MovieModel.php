@@ -152,7 +152,7 @@ class MovieModel extends Model
     }
 
     public function getAllMoviesFiltered($data, $deleted = null, $perPage = 8) {
-        $this->select('movie.id, movie.title, movie.slug, media.file_path as preview_url');
+        $this->select('movie.id, movie.title, movie.slug, showing.date, media.file_path as preview_url');
         $this->join('media', 'media.entity_id = movie.id AND entity_type = "movie"', 'left');
         $this->join('showing', 'showing.movie_id = movie.id');
         foreach ($data as $filter =>$slug) {
@@ -170,7 +170,7 @@ class MovieModel extends Model
                     break;
             }
         }
-        $this->where('movie.deleted_at', $deleted);
+        $this->where('movie.deleted_at', $deleted)->where('showing.date >= NOW()');
         $this->distinct();
 
         return $this->paginate($perPage);

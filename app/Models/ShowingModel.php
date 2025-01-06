@@ -34,7 +34,7 @@ class ShowingModel extends Model
         $builder->join('movie', 'showing.movie_id = movie.id', 'inner');
         $builder->join('media', 'movie.id = media.entity_id AND media.entity_type = "movie"', 'left');
         $builder->join('theater t', 't.id = a.theater_id', 'left');
-        $builder->where('a.theater_id', $theater_id);
+        $builder->where('a.theater_id', $theater_id)->where('showing.date >= NOW()');
         $query = $builder->get();
         return $query->getResultArray();
     }
@@ -122,11 +122,11 @@ class ShowingModel extends Model
 
     public function getShowingByMovieSlug($slug) {
         $builder = $this->builder();
-        $builder->select('showing.date, showing.capacity, showing.version, theater.name as theater_name, theater.id as theater_id');
+        $builder->select('showing.date, showing.capacity, showing.version, theater.name as theater_name, theater.slug as theater_slug, theater.id as theater_id');
         $builder->join('movie', 'movie.id = showing.movie_id', 'left');
         $builder->join('auditorium', 'auditorium.id = showing.auditorium_id', 'left');
         $builder->join('theater', 'theater.id = auditorium.theater_id', 'left');
-        return $builder->where('movie.slug', $slug)->orderBy('showing.date', 'ASC')->get()->getResultArray();
+        return $builder->where('movie.slug', $slug)->where('showing.date >= NOW()')->orderBy('showing.date', 'ASC')->get()->getResultArray();
     }
 
     public function deleteShowing($id) {

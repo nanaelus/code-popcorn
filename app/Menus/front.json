@@ -8,7 +8,7 @@
     },
     "movies": {
       "title": "Films",
-      "url": "movie",
+      "url": "movie/a-l-affiche",
       "perm": "none",
       "icon": "<i class=\"nav-icon fa-solid fa-film\"></i>"
     }

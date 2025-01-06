@@ -56,13 +56,13 @@
                                        Version : <?= $showing['version']; ?>
                                    </div>
                                    <div class="ms-1">
-                                       Cinéma : <a href="<?= base_url('theater/'. $showing['theater_id']);?>" alt="Page du Cinéma"><?= $showing['theater_name']; ?></a>
+                                       Cinéma : <a href="<?= base_url('theater/'. $showing['theater_slug']);?>" alt="Page du Cinéma"><?= $showing['theater_name']; ?></a>
                                    </div>
                                </div>
                            </div>
                        <?php }
                    } else { ?>
-                       <div class="card-footer front h4 text-center">Pas de Séance Prévue</div>
+                           <div class="card-footer front text-center"><h4>Pas de Séance Prévue</h4></div>
                    <?php } ?>
                </div>
            </div>
