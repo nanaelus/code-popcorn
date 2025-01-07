@@ -2,7 +2,7 @@
     <div class="col">
         <div class="card">
             <div class="card-header">
-                Page <?= isset($auditorium) ? "de modification" : "de création"; ?> de salle.
+                Page <?= isset($auditorium) ? "de modification de la salle : " . $auditorium['name'] : "de création d'une Salle"; ?>
             </div>
             <div class="card-body">
                <form method="POST" action="<?= isset($auditorium) ? base_url('/admin/auditorium/update') : base_url('/admin/auditorium/create'); ?>">

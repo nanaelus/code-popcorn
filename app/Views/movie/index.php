@@ -12,7 +12,7 @@ if($controller == '' || 'home'){
         <div class="card h-auto">
             <div class="card-header front">Filtre de recherche</div>
                 <div class="card-body">
-                    <form method="get" action="<?= base_url($controller); ?>">
+                    <form method="get" action="<?= base_url($controller); ?>/a-l-affiche">
 
                         <!--Filtre pour la classification -->
                         <div class="mb-3">

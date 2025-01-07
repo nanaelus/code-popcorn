@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 class Movie extends BaseController
 {
     protected $require_auth = false;
+    protected $title = "A l'Affiche";
     public function getindex($slug = null)
     {
         $categories = model('CategoryModel')->getAllCategories();
@@ -23,6 +24,7 @@ class Movie extends BaseController
         }
         $movie = model('MovieModel')->getMovieBySlug($slug);
         if($movie) {
+            $this->title = $movie['title'];
             $categories = model('CategoryMovieModel')->getCategoriesByMovieSlug($slug);
             $showings = model('ShowingModel')->getShowingByMovieSlug($slug);
             return $this->view('movie/movie', ['movie' => $movie, 'showings' => $showings, 'categories' => $categories]);

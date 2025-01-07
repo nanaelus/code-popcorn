@@ -8,15 +8,21 @@ class Userpermission extends BaseController
 {
     protected $require_auth = true;
     protected $requiredPermissions = ['administrateur'];
+    protected $breadcrumb =  [['text' => 'Tableau de Bord','url' => '/admin/dashboard'], ['text' => 'Gestion des Permissions', 'url' => '/admin/userpermission']];
+    protected $title = "Gestion des Rôles";
     public function getindex($id = null) {
         if ($id == null) {
             return $this->view('/admin/user/index-permission', [], true);
         } else {
             $upm = Model("/UserPermissionModel");
             if ($id == "new") {
+                $this->addBreadcrumb('Ajout d\'un rôle', '');
+                $this->title = "Ajout d'un rôle";
                 return $this->view('/admin/user/user-permission', [], true);
             }
             $permission = $upm->getUserPermissionById($id);
+            $this->addBreadcrumb('Modication d\'un rôle', '');
+            $this->title = "Modification du rôle : " . $permission['name'];
             return $this->view('/admin/user/user-permission', ["permission" => $permission], true);
         }
     }

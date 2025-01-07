@@ -10,6 +10,7 @@ class User extends BaseController
     public function getindex($id=null)
     {
         if($id == $this->session->user->id) {
+            $this->title = "Mon Profil";
             $utilisateur = model('UserModel')->getUserById($id);
             return $this->view('user', ['utilisateur' => $utilisateur]);
         } else {
