@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 class Theater extends BaseController
 {
     protected $require_auth = false;
+    protected $title = "Nos Cinémas";
     public function getindex($slug = null)
     {
         if($slug == null) {
@@ -19,6 +20,7 @@ class Theater extends BaseController
         }
         if($slug) {
             $theater = model('TheaterModel')->getTheaterBySlug($slug);
+            $this->title = $theater['name'];
             if($theater) {
                 $showing = model('ShowingModel')->getShowingByTheaterId($theater['id']);
             return $this->view('theater/theater', ['theater' => $theater, 'showing' => $showing]);

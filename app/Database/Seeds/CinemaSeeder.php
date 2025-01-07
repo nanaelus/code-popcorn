@@ -11,9 +11,16 @@ class CinemaSeeder extends Seeder
         $faker = \Faker\Factory::create('fr_FR');
 
         $data = [];
+        $usedNames = []; // Tableau pour stocker les noms générés
         for ($i = 0; $i < 20; $i++) {
+            do {
+                $name = $faker->company . ' Cinéma';
+            } while (in_array($name, $usedNames)); // Vérifier si le nom est déjà utilisé
+
+            $usedNames[] = $name; // Ajouter le nom au tableau pour éviter les doublons
+
             $data[] = [
-                'name'      => $faker->company . ' Cinéma',
+                'name'      => $name,
                 'address'   => $faker->address,
                 'phone'     => $faker->phoneNumber,
                 'email'     => $faker->companyEmail,
