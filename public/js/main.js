@@ -138,7 +138,29 @@ $(document).ready(function() {
         }
     });
 
-    $('#theater_id').on('change', function() {
-        document.getElementById("formTheater").submit();
-    });
+    let isOpen = false; // Suivre si le menu déroulant est ouvert
+    let previousValue = $('#theater_id').val(); // Stocker la valeur initiale
+
+    $('#theater_id')
+        .on('focus', function () {
+            isOpen = true; // Détecter l'ouverture du menu
+        })
+        .on('blur', function () {
+            isOpen = false; // Détecter la fermeture du menu
+        })
+        .on('change', function () {
+            const currentValue = $(this).val();
+            // Soumettre si une nouvelle option est sélectionnée
+            if (currentValue !== previousValue) {
+                previousValue = currentValue;
+                document.getElementById("formTheater").submit();
+            }
+        })
+        .on('click', function () {
+            const currentValue = $(this).val();
+            // Soumettre si le menu est ouvert et la même option est sélectionnée
+            if (isOpen && currentValue === previousValue && currentValue !== "") {
+                document.getElementById("formTheater").submit();
+            }
+        });
 });
