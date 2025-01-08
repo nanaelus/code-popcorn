@@ -12,7 +12,7 @@ class TheaterModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'address', 'phone', 'email', 'city_id'];
+    protected $allowedFields    = ['name', 'address', 'phone', 'email', 'city_id','slug'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -58,10 +58,14 @@ class TheaterModel extends Model
         return $this->get()->getRowArray();
     }
     public function createTheater($data) {
+        $data['slug'] = $this->generateUniqueSlug($data['name']);
         return $this->insert($data);
     }
 
     public function updateTheater($id, $data) {
+        if (isset($data['name'])) {
+            $data['slug'] = $this->generateUniqueSlug($data['name'],$id);
+        }
         return $this->update($id, $data);
     }
 
@@ -140,5 +144,22 @@ class TheaterModel extends Model
         $this->like('name', $searchValue); // On recherche les villes dont le nom contient $searchValue
         $query = $this->get();
         return $query->getResultArray(); // Retourne les résultats sous forme de tableau
+    }
+
+    private function generateUniqueSlug($name)
+    {
+        $slug = generateSlug($name);
+        $builder = $this->builder();
+        $count = $builder->where('slug', $slug)->countAllResults();
+        if ($count === 0) {
+            return $slug;
+        }
+        $i = 1;
+        while ($count > 0) {
+            $newSlug = $slug . '-' . $i;
+            $count = $builder->where('slug', $newSlug)->countAllResults();
+            $i++;
+        }
+        return $newSlug;
     }
 }
