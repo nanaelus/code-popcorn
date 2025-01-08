@@ -41,12 +41,14 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
             </ul>
         </div>
         <form class="theaters-id" method="POST" id="formTheater" action="<?= base_url("theater/theater"); ?>">
-                <select class="form-select-sm me-2" name="theater_id" id="theater_id">
-                    <option value="">Aucun Cinéma Sélectionné</option>
-                    <?php foreach($theaters as $t){ ?>
-                        <option value="<?= $t['id']; ?>" <?= isset($theater) && $theater['id']==$t['id'] ? "selected" : ""; ?>><?= $t['name']; ?></option>
-                    <?php } ?>
-                </select>
+            <select class="form-select-sm me-2" name="theater_id" id="theater_id">
+                <option class="theater-selected" value="">Aucun Cinéma Sélectionné</option>
+                <?php foreach ($theaters as $t) { ?>
+                    <option  value="<?= $t['id']; ?>" <?= isset($theater) && $theater['id'] == $t['id'] ? "selected" : ""; ?>>
+                        <?= $t['name']; ?>
+                    </option>
+                <?php } ?>
+            </select>
         </form>
         <select id="<?= $controller == 'theater' ? 'search-theater-head' : 'search-movie-head' ;?>" class="form-control me-2 w-25" name="item">LOL</select>
 

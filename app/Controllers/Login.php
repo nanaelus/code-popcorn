@@ -24,10 +24,12 @@ class Login extends BaseController
         if ($user) {
             $user = new User($user);
             if (!$user->isActive()){
-                return view('/login/login');
+                return view('/login/login', ['error' => 'Compte désactivé. Veuillez contacter un administrateur']);
             }
             $this->session->set('user', $user);
-            return $this->redirect('/');
+            $redirectUrl = $this->session->get('redirect_url') ?? '/';
+            $this->session->remove('redirect_url');
+            $this->redirect($redirectUrl);
         } else {
             // Gérer l'échec de l'authentification
             return view('/login/login');
