@@ -267,6 +267,7 @@ abstract class BaseController extends Controller
             $datas = array_merge($datas, $flashData);
         }
 
+
         return view($template_dir . 'head', [
                 'template_dir' => $template_dir,
                 'show_menu' => $connected,
