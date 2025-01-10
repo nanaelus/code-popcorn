@@ -46,20 +46,29 @@
                    if($showings) { ?>
                        <div class="card-footer front d-flex flex-wrap justify-content-between">
                        <?php foreach($showings as $showing) { ?>
-                           <div class="mb-2">
-                               <div class="card" style="width: 25em; background-color: #fff5e7">
-                                    <?php $date = strtotime($showing['date']); ?>
-                                   <div class="ms-1">
-                                       Le : <?= date('d/m/Y',$date); ?> à <?= date('H:i',$date); ?>
-                                   </div>
-                                   <div class="ms-1">
-                                       Version : <?= $showing['version']; ?>
-                                   </div>
-                                   <div class="ms-1">
-                                       Cinéma : <a href="<?= base_url('theater/'. $showing['theater_slug']);?>" alt="Page du Cinéma"><?= $showing['theater_name']; ?></a>
+                           <form action="<?= base_url('showing/reserver'); ?>" method="POST">
+                               <div class="mb-2">
+                                   <div class="card" style="width: 25em; background-color: #fff5e7">
+                                        <?php $date = strtotime($showing['date']); ?>
+                                       <div class="row">
+                                           <div class="col-8">
+                                               <div class="ms-1">
+                                                   Le : <?= date('d/m/Y',$date); ?> à <?= date('H:i',$date); ?>
+                                               </div>
+                                               <div class="ms-1">
+                                                   Version : <?= $showing['version']; ?>
+                                               </div>
+                                               <div class="ms-1">
+                                                   Cinéma : <a href="<?= base_url('theater/'. $showing['theater_slug']);?>" alt="Page du Cinéma"><?= $showing['theater_name']; ?></a>
+                                               </div>
+                                           </div>
+                                           <div class="col-4 d-flex justify-content-center align-items-center">
+                                               <a href="<?= base_url('showing/reserver');?>" type="submit" class="btn btn-primary">Réserver</a>
+                                           </div>
+                                       </div>
                                    </div>
                                </div>
-                           </div>
+                           </form>
                        <?php }
                    } else { ?>
                            <div class="card-footer front text-center"><h4>Pas de Séance Prévue</h4></div>
