@@ -20,7 +20,7 @@ class UserModelTest extends CIUnitTestCase
         $this->db->query('SET FOREIGN_KEY_CHECKS=0');
 
         //truncate the table before each test
-        $this->db->table('TableUser')->truncate();
+        $this->db->table('user')->truncate();
 
         //re-enable foreign key checks
         $this->db->query('SET FOREIGN_KEY_CHECKS=1');
@@ -32,8 +32,8 @@ class UserModelTest extends CIUnitTestCase
         $this->db->query('SET FOREIGN_KEY_CHECKS=0');
 
         //truncature des tables
-        $this->db->table('TableUser')->truncate();
-        $this->db->table('collection')->truncate();
+        $this->db->table('user')->truncate();
+        $this->db->table('showing')->truncate();
 
         // Réactiver la vérification des clés etrangeres
         $this->db->query('SET FOREIGN_KEY_CHECKS=1');
@@ -51,7 +51,7 @@ class UserModelTest extends CIUnitTestCase
         $this->assertTrue($result>0); // Vérifie que l'ID de l'utilisateur créé est superieur à 0
 
         // Vérifie que l'utilisdateur a bien été crée dans la base de donnée
-        $this->seeInDatabase('TableUser', ['email'=>'testuser@example.com']);
+        $this->seeInDatabase('user', ['email'=>'testuser@example.com']);
     }
 
 }
