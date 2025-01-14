@@ -45,6 +45,21 @@ class UserPermissionModel extends Model
         return $this->update($id, $data);
     }
 
+    public function deletePermission($id)
+    {
+        return $this->delete($id);
+    }
+
+    public function getAllPermissions()
+    {
+        return $this->findAll();
+    }
+
+    public function getUserPermissionById($id)
+    {
+        return $this->find($id);
+    }
+
     private function generateUniqueSlug($name)
     {
         $slug = generateSlug($name); // Utilisez la fonction du helper pour générer le slug de base
@@ -66,29 +81,6 @@ class UserPermissionModel extends Model
         }
 
         return $newSlug;
-    }
-
-    public function getUsersByPermission($permissionId)
-    {
-        return $this->join('TableUser', 'TableUserPermission.id = TableUser.id_permission')
-            ->where('TableUserPermission.id', $permissionId)
-            ->select('TableUser.*, TableUserPermission.name as permission_name')
-            ->findAll();
-    }
-
-    public function getAllPermissions()
-    {
-        return $this->findAll();
-    }
-
-    public function getUserPermissionById($id)
-    {
-        return $this->find($id);
-    }
-
-    public function deletePermission($id)
-    {
-        return $this->delete($id);
     }
 
     public function getPaginatedPermission($start, $length, $searchValue, $orderColumnName, $orderDirection)
