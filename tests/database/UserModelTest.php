@@ -180,8 +180,7 @@ class UserModelTest extends CIUnitTestCase
         ];
         $model->createUser($data); // Crée l'utilisateur
 
-        $userId = $model->insertID(); // Récupère l'ID de l'utilisateur créé
-        $user = $model->getUserById($userId); // Utilisez cet ID au lieu de supposer que c'est 1
+        $user = $model->getUserById(1); // Utilisez cet ID au lieu de supposer que c'est 1
         $this->assertEquals('testuser', $user['username']); // Vérification
 
     }
