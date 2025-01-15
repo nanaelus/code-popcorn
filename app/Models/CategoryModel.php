@@ -14,16 +14,6 @@ class CategoryModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['name','slug'];
 
-
-
-    public function getAllCategories() {
-        return $this->findAll();
-    }
-
-    public function getCategoryByID($id) {
-        return $this->find($id);
-    }
-
     public function createCategory($data) {
         $data['slug'] = $this->generateUniqueSlug($data['name']);
         return $this->insert($data);
@@ -36,6 +26,14 @@ class CategoryModel extends Model
 
     public function deleteCategory($id) {
         return $this->delete($id);
+    }
+
+    public function getAllCategories() {
+        return $this->findAll();
+    }
+
+    public function getCategoryByID($id) {
+        return $this->find($id);
     }
 
     public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection)
