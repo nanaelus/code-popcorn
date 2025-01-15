@@ -33,6 +33,21 @@ class MovieModel extends Model
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
+    public function createMovie($data) {
+        $data['slug'] = $this->generateUniqueSlug($data['title']);
+        return $this->insert($data);
+    }
+
+    public function updateMovie($id, $data) {
+        if (isset($data['title'])) {
+            $data['slug'] = $this->generateUniqueSlug($data['title'],$id);
+        }
+        return $this->update($id, $data);
+    }
+
+    public function deleteMovie($id) {
+        return $this->delete($id);
+    }
 
     public function getMovieById($id) {
         $this->select('movie.*, media.file_path as preview_url');
@@ -86,22 +101,6 @@ class MovieModel extends Model
         }
 
         return $builder->countAllResults();
-    }
-
-    public function createMovie($data) {
-        $data['slug'] = $this->generateUniqueSlug($data['title']);
-        return $this->insert($data);
-    }
-
-    public function updateMovie($id, $data) {
-        if (isset($data['title'])) {
-            $data['slug'] = $this->generateUniqueSlug($data['title'],$id);
-        }
-        return $this->update($id, $data);
-    }
-
-    public function deleteMovie($id) {
-        return $this->delete($id);
     }
 
     public function activateMovie($id) {
