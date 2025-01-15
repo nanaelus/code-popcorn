@@ -55,39 +55,11 @@ class UserModel extends Model
     protected $beforeInsert = ['hashPassword'];
     protected $beforeUpdate = ['hashPassword'];
 
-    protected function hashPassword(array $data)
-    {
-        if (!isset($data['data']['password'])) {
-            return $data;
-        }
-
-        $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
-        return $data;
-    }
-
-    // Relations avec les permissions
-    public function getPermissions()
-    {
-        return $this->join('user_permission', 'user.id_permission = user_permission.id')
-            ->select('user.*, user_permission.name as permission_name')
-            ->findAll();
-    }
-
-    public function getUserById($id)
-    {
-        $this->select('user.*, media.file_path as avatar_url');
-        $this->join('media', 'user.id = media.entity_id AND media.entity_type = "user"', 'left');
-        return $this->find($id);
-    }
-    public function getAllUsers()
-    {
-        return $this->findAll();
-    }
-
     public function createUser($data)
     {
         return $this->insert($data);
     }
+
     public function updateUser($id, $data)
     {
         $builder = $this->builder();
@@ -106,6 +78,33 @@ class UserModel extends Model
         return $this->delete($id);
     }
 
+    public function verifyLogin($email, $password)
+    {
+        // Rechercher l'utilisateur par email
+        $user = $this->withDeleted()->where('email', $email)->first();
+
+        // Si l'utilisateur existe, vérifier le mot de passe
+        if ($user && password_verify($password, $user['password'])) {
+            // Le mot de passe est correct, retourner les informations de l'utilisateur
+            return $user;
+        }
+
+        // Si l'utilisateur n'existe pas ou si le mot de passe est incorrect, retourner false
+        return false;
+    }
+
+    public function getAllUsers()
+    {
+        return $this->findAll();
+    }
+
+    public function getUserById($id)
+    {
+        $this->select('user.*, media.file_path as avatar_url');
+        $this->join('media', 'user.id = media.entity_id AND media.entity_type = "user"', 'left');
+        return $this->find($id);
+    }
+
     public function countUserByPermission() {
         $builder = $this->db->table('user U');
         $builder->select('UP.name, count(U.id) as count');
@@ -121,19 +120,12 @@ class UserModel extends Model
         return $builder->update();
     }
 
-    public function verifyLogin($email, $password)
+    // Relations avec les permissions
+    public function getPermissions()
     {
-        // Rechercher l'utilisateur par email
-        $user = $this->withDeleted()->where('email', $email)->first();
-
-        // Si l'utilisateur existe, vérifier le mot de passe
-        if ($user && password_verify($password, $user['password'])) {
-            // Le mot de passe est correct, retourner les informations de l'utilisateur
-            return $user;
-        }
-
-        // Si l'utilisateur n'existe pas ou si le mot de passe est incorrect, retourner false
-        return false;
+        return $this->join('user_permission', 'user.id_permission = user_permission.id')
+            ->select('user.*, user_permission.name as permission_name')
+            ->findAll();
     }
 
     public function getPaginatedUser($start, $length, $searchValue, $orderColumnName, $orderDirection)
@@ -184,5 +176,15 @@ class UserModel extends Model
         }
 
         return $builder->countAllResults();
+    }
+
+    protected function hashPassword(array $data)
+    {
+        if (!isset($data['data']['password'])) {
+            return $data;
+        }
+
+        $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+        return $data;
     }
 }
