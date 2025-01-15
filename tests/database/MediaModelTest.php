@@ -8,5 +8,5 @@ use App\Models\MediaModel;
 
 class MediaModelTest extends CIUnitTestCase
 {
-
+LOL
 }
