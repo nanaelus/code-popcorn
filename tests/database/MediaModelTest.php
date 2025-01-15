@@ -30,8 +30,8 @@ class MediaModelTest extends CIUnitTestCase
         $this->db->query('SET FOREIGN_KEY_CHECKS=0');
 
         //truncature des tables
+        $this->db->table('media')->truncate();
         $this->db->table('user')->truncate();
-        $this->db->table('user_permission')->truncate();
 
         // Réactiver la vérification des clés etrangeres
         $this->db->query('SET FOREIGN_KEY_CHECKS=1');
