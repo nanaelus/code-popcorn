@@ -72,7 +72,7 @@ class MovieModelTest extends CIUnitTestCase
         $updatedData = ['title' => 'updated movie', 'duration' => 122];
 
         //Utilisation de la fonction à tester
-        $result = $model->updateMovie(1, $updatedData);
+        $model->updateMovie(1, $updatedData);
 
         //Vérification de la mise à jour de la data
         $this->seeInDatabase('movie', ['title' => 'updated movie', 'duration' => 122]);
@@ -241,7 +241,6 @@ class MovieModelTest extends CIUnitTestCase
             'rating' => 'Tous Publics'
         ];
         $model->createMovie($data2);
-        $model = new MovieModel();
 
         //Création d'un troisième film fictif
         $data3 = [
