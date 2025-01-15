@@ -22,6 +22,37 @@ class MovieModelTest extends CIUnitTestCase
         //truncate the table before each test
         $this->db->table('movie')->truncate();
 
+        $data = [
+            [
+                'id' => 1,
+                'title' => 'test movie',
+                'release' => 1998-07-12,
+                'duration' => 90,
+                'description' => 'test description',
+                'slug' => 'test-movie',
+                'rating' => 'Tous Publics'
+            ],
+            [
+                'id' => 2,
+                'title' => 'Wazaaaa',
+                'release' => 2018-11-22,
+                'duration' => 90,
+                'description' => 'test description666',
+                'slug' => 'wazaaaa',
+                'rating' => 'Tous Publics'
+            ],
+            [
+                'id' => 3,
+                'title' => 'test pagination',
+                'release' => 1978-01-12,
+                'duration' => 90,
+                'description' => 'test description2',
+                'slug' => 'test-pagination',
+                'rating' => '-18 ans'
+            ]
+        ];
+        $this->db->table('movie')->insertBatch($data);
+
         //re-enable foreign key checks
         $this->db->query('SET FOREIGN_KEY_CHECKS=1');
     }
@@ -42,7 +73,7 @@ class MovieModelTest extends CIUnitTestCase
     public function testCreateMovie() {
         $model = new MovieModel();
         $data = [
-            'title' => 'test movie',
+            'title' => 'testouille movie',
             'release' => 1998-07-12,
             'duration' => 90,
             'descritpion' => 'test description',
@@ -51,22 +82,11 @@ class MovieModelTest extends CIUnitTestCase
         $result = $model->createMovie($data);
 
         $this->assertTrue($result > 0);
-        $this->seeInDatabase('movie', ['title' => 'test movie']);
+        $this->seeInDatabase('movie', ['title' => 'testouille movie']);
     }
 
     public function testUpdateMovie() {
         $model = new MovieModel();
-
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data);
 
         //Data à mettre à jour pour le film fictif
         $updatedData = ['title' => 'updated movie', 'duration' => 122];
@@ -81,16 +101,6 @@ class MovieModelTest extends CIUnitTestCase
 
     public function testDeleteMovie() {
         $model = new MovieModel();
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data);
 
         //Vérification de l'insertion du film dans la Base de Données
         $this->seeInDatabase('movie', ['id' => 1]);
@@ -105,28 +115,6 @@ class MovieModelTest extends CIUnitTestCase
     public function testGetMovieById(){
         $model = new MovieModel();
 
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data);
-
-        //Création d'un deuxième film fictif
-        $data2 = [
-            'id' => 2,
-            'title' => 'Wazaaaa',
-            'release' => 2018-11-22,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data2);
-
         $movie = $model->getMovieById(1);
         $this->assertEquals('test movie' ,$movie['title']);
 
@@ -137,40 +125,6 @@ class MovieModelTest extends CIUnitTestCase
     public function testGetPaginated() {
         $model = new MovieModel();
 
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data);
-
-        //Création d'un deuxième film fictif
-        $data2 = [
-            'id' => 2,
-            'title' => 'Wazaaaa',
-            'release' => 2018-11-22,
-            'duration' => 90,
-            'descritpion' => 'test description666',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data2);
-        $model = new MovieModel();
-
-        //Création d'un troisième film fictif
-        $data3 = [
-            'id' => 3,
-            'title' => 'test pagination',
-            'release' => 1978-01-12,
-            'duration' => 91,
-            'descritpion' => 'test description2',
-            'rating' => '-18 ans'
-        ];
-        $model->createMovie($data3);
-
         $result = $model->getPaginated(0, 3, '', 'title', 'ASC');
         $this->assertIsArray($result);
         $this->assertCount(3, $result);
@@ -179,79 +133,12 @@ class MovieModelTest extends CIUnitTestCase
     public function testGetTotal() {
         $model = new MovieModel();
 
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data);
-
-        //Création d'un deuxième film fictif
-        $data2 = [
-            'id' => 2,
-            'title' => 'Wazaaaa',
-            'release' => 2018-11-22,
-            'duration' => 90,
-            'descritpion' => 'test description666',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data2);
-        $model = new MovieModel();
-
-        //Création d'un troisième film fictif
-        $data3 = [
-            'id' => 3,
-            'title' => 'test pagination',
-            'release' => 1978-01-12,
-            'duration' => 91,
-            'descritpion' => 'test description2',
-            'rating' => '-18 ans'
-        ];
-        $model->createMovie($data3);
-
         $result = $model->getTotal();
         $this->assertEquals(3, $result);
     }
 
     public function testGetFiltered() {
         $model = new MovieModel();
-
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data);
-
-        //Création d'un deuxième film fictif
-        $data2 = [
-            'id' => 2,
-            'title' => 'Wazaaaa',
-            'release' => 2018-11-22,
-            'duration' => 90,
-            'descritpion' => 'test description666',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data2);
-
-        //Création d'un troisième film fictif
-        $data3 = [
-            'id' => 3,
-            'title' => 'test pagination',
-            'release' => 1978-01-12,
-            'duration' => 90,
-            'descritpion' => 'test description2',
-            'rating' => '-18 ans'
-        ];
-        $model->createMovie($data3);
 
         $filter = $model->getFiltered('test movie');
         $this->assertEquals(1, $filter);
@@ -265,58 +152,13 @@ class MovieModelTest extends CIUnitTestCase
 
     public function testActivateMovie() {
         $model = new MovieModel();
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics',
-            'deleted_at' => 2002-01-23
-        ];
-        $model->createMovie($data);
 
-        $result = $model->activateMovie(1);
+        $model->activateMovie(1);
         $this->seeInDatabase('movie', ['id' => 1, 'deleted_at' => null]);
     }
 
     public function testGetAllMovies() {
         $model = new MovieModel();
-
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data);
-
-        //Création d'un deuxième film fictif
-        $data2 = [
-            'id' => 2,
-            'title' => 'Wazaaaa',
-            'release' => 2018-11-22,
-            'duration' => 90,
-            'descritpion' => 'test description666',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data2);
-        $model = new MovieModel();
-
-        //Création d'un troisième film fictif
-        $data3 = [
-            'id' => 3,
-            'title' => 'test pagination',
-            'release' => 1978-01-12,
-            'duration' => 91,
-            'descritpion' => 'test description2',
-            'rating' => '-18 ans'
-        ];
-        $model->createMovie($data3);
 
         $result = $model->getAllMovies();
         $this->assertIsArray($result);
@@ -325,40 +167,6 @@ class MovieModelTest extends CIUnitTestCase
 
     public function testGetMovieBySlug() {
         $model = new MovieModel();
-
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data);
-
-        //Création d'un deuxième film fictif
-        $data2 = [
-            'id' => 2,
-            'title' => 'Wazaaaa',
-            'release' => 2018-11-22,
-            'duration' => 90,
-            'descritpion' => 'test description666',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data2);
-        $model = new MovieModel();
-
-        //Création d'un troisième film fictif
-        $data3 = [
-            'id' => 3,
-            'title' => 'test pagination',
-            'release' => 1978-01-12,
-            'duration' => 91,
-            'descritpion' => 'test description2',
-            'rating' => '-18 ans'
-        ];
-        $model->createMovie($data3);
 
         $result = $model->getMovieBySlug('test-movie');
         $this->assertEquals(1, $result['id']);
@@ -372,39 +180,6 @@ class MovieModelTest extends CIUnitTestCase
 
     public function testSearchMoviesByName() {
         $model = new MovieModel();
-
-        //Création d'un film fictif
-        $data = [
-            'id' => 1,
-            'title' => 'test movie',
-            'release' => 1998-07-12,
-            'duration' => 90,
-            'descritpion' => 'test description',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data);
-
-        //Création d'un deuxième film fictif
-        $data2 = [
-            'id' => 2,
-            'title' => 'Wazaaaa',
-            'release' => 2018-11-22,
-            'duration' => 90,
-            'descritpion' => 'test description666',
-            'rating' => 'Tous Publics'
-        ];
-        $model->createMovie($data2);
-
-        //Création d'un troisième film fictif
-        $data3 = [
-            'id' => 3,
-            'title' => 'test pagination',
-            'release' => 1978-01-12,
-            'duration' => 90,
-            'descritpion' => 'test description2',
-            'rating' => '-18 ans'
-        ];
-        $model->createMovie($data3);
 
         $movie = $model->searchMoviesByName('test movie');
         $this->assertCount(1, $movie);
