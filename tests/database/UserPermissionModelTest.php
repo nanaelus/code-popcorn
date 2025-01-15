@@ -6,6 +6,7 @@ use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Config\Services;
 use CodeIgniter\Database\ConnectionInterface;
+use function PHPUnit\Framework\assertEquals;
 
 class UserPermissionModelTest extends CIUnitTestCase
 {
@@ -103,5 +104,51 @@ class UserPermissionModelTest extends CIUnitTestCase
         $permission = $model->getUserPermissionById(1);
         $this->assertNotNull($permission);
         $this->seeInDatabase('user_permission', ['name'=>'permitest']);
+    }
+
+    public function testGetTotalPermission() {
+        $model = new UserPermissionModel();
+
+        $data1 = ['name' => 'permitest'];
+        $data2 = ['name' => 'permitest2'];
+        $data3 = ['name' => 'permitest3'];
+
+        $model->createPermission($data1);
+        $model->createPermission($data2);
+        $model->createPermission($data3);
+
+        $result = $model->getTotalPermission();
+        $this->assertEquals(3, $result);
+    }
+
+    public function testGetFilteredPermission(){
+        $model = new UserPermissionModel();
+        $data = ['name' => 'permitest'];
+        $data2 = ['name' => 'test deux permitest'];
+
+        $model->createPermission($data);
+        $model->createPermission($data2);
+
+        $result = $model->getFilteredPermission('permitest');
+        $this->assertEquals(2, $result);
+
+        $result = $model->getFilteredPermission('deux');
+        $this->assertEquals(1, $result);
+    }
+
+    public function testGetPaginatedPermission() {
+        $model = new UserPermissionModel();
+
+        $data = ['name' => 'permitest'];
+        $data2 = ['name' => 'permitest2'];
+        $data3 = ['name' => 'permitest3'];
+
+        $model->createPermission($data);
+        $model->createPermission($data2);
+        $model->createPermission($data3);
+
+        $result = $model->getPaginatedPermission(0,3, '', 'name', 'ASC');
+        $this->assertIsArray($result);
+        $this->assertCount(3, $result);
     }
 }

@@ -28,7 +28,7 @@ class CityModelTest extends CIUnitTestCase
     public function testGetAllCities() {
         $model = new CityModel();
         $data = ['zip_code' => '17290', 'label' => 'Le Thou', 'department_name' => 'ain', 'department_number' => 1, "region_name" => "PARIS"];
-        $data2 = ['zip_code' => '172290', 'label' => 'Le T2hou', 'department_name' => 'ai2n', 'department_number' => 1, "region_name" => "PAR2IS"];
+        $data2 = ['zip_code' => '172290', 'label' => 'Le Thou2', 'department_name' => 'ai2n', 'department_number' => 1, "region_name" => "PAR2IS"];
 
         $model->insert($data);
         $model->insert($data2);
@@ -45,5 +45,24 @@ class CityModelTest extends CIUnitTestCase
         $city = $model->getCityById(1);
 
         $this->assertEquals('17290', $city['zip_code']);
+    }
+
+    public function testSearchCitiesByName() {
+        $model = new CityModel();
+
+        $data = ['zip_code' => '17290', 'label' => 'Le Thou', 'department_name' => 'ain', 'department_number' => 1, "region_name" => "PARIS"];
+        $data2 = ['zip_code' => '172290', 'label' => 'Mandala', 'department_name' => 'ai2n', 'department_number' => 1, "region_name" => "PAR2IS"];
+
+        $model->insert($data);
+        $model->insert($data2);
+
+        $city = $model->searchCitiesByName('Le Thou');
+        $this->assertCount(1, $city);
+
+        $city = $model->searchCitiesByName('Mandala');
+        $this->assertCount(1, $city);
+
+        $city = $model->searchCitiesByName('Wazzaaaaaah');
+        $this->assertCount(0, $city);
     }
 }

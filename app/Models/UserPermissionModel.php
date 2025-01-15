@@ -83,23 +83,6 @@ class UserPermissionModel extends Model
         return $newSlug;
     }
 
-    public function getPaginatedPermission($start, $length, $searchValue, $orderColumnName, $orderDirection)
-    {
-        $builder = $this->builder();
-        // Recherche
-        if ($searchValue != null) {
-            $builder->like('name', $searchValue);
-        }
-
-        // Tri
-        if ($orderColumnName && $orderDirection) {
-            $builder->orderBy($orderColumnName, $orderDirection);
-        }
-
-        $builder->limit($length, $start);
-
-        return $builder->get()->getResultArray();
-    }
 
     public function getTotalPermission()
     {
@@ -116,5 +99,23 @@ class UserPermissionModel extends Model
         }
 
         return $builder->countAllResults();
+    }
+
+    public function getPaginatedPermission($start, $length, $searchValue, $orderColumnName, $orderDirection)
+    {
+        $builder = $this->builder();
+        // Recherche
+        if ($searchValue != null) {
+            $builder->like('name', $searchValue);
+        }
+
+        // Tri
+        if ($orderColumnName && $orderDirection) {
+            $builder->orderBy($orderColumnName, $orderDirection);
+        }
+
+        $builder->limit($length, $start);
+
+        return $builder->get()->getResultArray();
     }
 }
