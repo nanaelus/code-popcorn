@@ -50,4 +50,12 @@ class Showing extends BaseController
         }
         $this->redirect('/admin/showing');
     }
+
+    public function getprice() {
+        //
+    }
+
+    public function gettypeshowing() {
+        //
+    }
 }
