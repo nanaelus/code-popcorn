@@ -20,6 +20,25 @@ class MediaModelTest extends CIUnitTestCase
         //truncate the table before each test
         $this->db->table('media')->truncate();
 
+        // Création de faux medias
+        $data = [
+            [
+                'id' => 1,
+                'file_path' => 'uploads/media/file1.jpg',
+                'entity_id' => 1,
+                'entity_type' => 'user',
+                'created_at' => '2025-01-15 12:00:00'
+            ],
+            [
+                'id' => 2,
+                'file_path' => 'uploads/media/file2.jpg',
+                'entity_id' => 1,
+                'entity_type' => 'user',
+                'created_at' => '2025-01-16 12:00:00'
+            ]
+        ];
+        $this->db->table('media')->insertBatch($data);
+
         //re-enable foreign key checks
         $this->db->query('SET FOREIGN_KEY_CHECKS=1');
     }
@@ -39,37 +58,16 @@ class MediaModelTest extends CIUnitTestCase
 
     public function testGetMediaByEntityIdAndType()
     {
-        // Simulation d'une entité (exemple avec un ID et un type)
-       $data = [
-           ['file_path' => 'uploads/media/file1.jpg',
-           'entity_id' => 1,
-           'entity_type' => 'user',
-           'created_at' => '2025-01-15 12:00:00'],
-           ['id' => 2,
-           'file_path' => 'uploads/media/file2.jpg',
-           'entity_id' => 1,
-           'entity_type' => 'user',
-           'created_at' => '2025-01-16 12:00:00']
-       ];
+        $model = new MediaModel();
 
-       $model = new MediaModel();
-       $model->insertBatch($data);
-
-       $result = $model->getMediaByEntityIdAndType(1,'user');
-       $this->assertIsArray($result);
-       $this->assertCount(2, $result);
+        $result = $model->getMediaByEntityIdAndType(1,'user');
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
     }
 
-    public function testDeleteMedia(){
-        // Simulation d'une entité (exemple avec un ID et un type)
-        $data = ['id' => 1,'file_path' => 'uploads/media/file1.jpg',
-                'entity_id' => 1,
-                'entity_type' => 'user',
-                'created_at' => '2025-01-15 12:00:00'];
-
+    public function testDeleteMedia()
+    {
         $model = new MediaModel();
-        $model->insert($data);
-
 
         $result = $model->deleteMedia(1);
         $this->assertFalse($result);

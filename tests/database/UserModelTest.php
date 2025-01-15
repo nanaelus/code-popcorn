@@ -23,6 +23,40 @@ class UserModelTest extends CIUnitTestCase
         //truncate the table before each test
         $this->db->table('user')->truncate();
 
+        $data = [
+            [
+                'username'=>'testuser',
+                'firstname'=>'testuser',
+                'lastname'=>'testuser',
+                'phone'=>'+66666666',
+                'dob'=> 1998-07-12,
+                'email' => 'testuser@example.com',
+                'password' => 'password123',
+                'id_permission'=> 1,
+            ],
+            [
+                'username'=>'testuser2',
+                'firstname'=>'testuser2',
+                'lastname'=>'testuser2',
+                'phone'=>'+666666662',
+                'dob'=> 1998-07-12,
+                'email' => 'testuser2@example.com',
+                'password' => 'password1232',
+                'id_permission'=> 2,
+            ],
+            [
+                'username'=>'testuser3',
+                'firstname'=>'testuser3',
+                'lastname'=>'testuser3',
+                'phone'=>'+666666663',
+                'dob'=> 1998-07-12,
+                'email' => 'testuser3@example.com',
+                'password' => 'password1233',
+                'id_permission'=> 1,
+            ]
+        ];
+        $this->db->table('user')->insertBatch($data);
+
         //re-enable foreign key checks
         $this->db->query('SET FOREIGN_KEY_CHECKS=1');
     }
@@ -43,13 +77,13 @@ class UserModelTest extends CIUnitTestCase
     {
         $model = new UserModel();
         $data = [
-            'username'=>'testuser',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser@example.com',
-            'password' => 'password123',
+            'username'=>'testzuser',
+            'firstname'=>'testzuser',
+            'lastname'=>'testzuser',
+            'phone'=>'+66666663',
+            'dob'=> 1998-07-13,
+            'email' => 'testzuser@example.com',
+            'password' => 'passwordz123',
             'id_permission'=> 1,
         ];
         $result = $model->createUser($data);
@@ -62,25 +96,13 @@ class UserModelTest extends CIUnitTestCase
     public function testUpdateUser()
     {
         $model = new UserModel();
-        $data = [
-            'username'=>'testuser',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $model->createUser($data); // Crée l'utilisateur pour le test
 
         $updatedData = [
             'username' => 'updateduser',
             'password' => 'newpassword123', // Mettre à jour le mot de passe
         ];
 
-        $user = $model->getUserById(1); // Récupère l'utilisateur créé
-        $model->updateUser($user['id'], $updatedData); // Met à jour l'utilisateur
+        $model->updateUser(1, $updatedData); // Met à jour l'utilisateur
 
         // Vérifie que le nom d'utilisateur a été mis à jour
         $this->seeInDatabase('user', ['username' => 'updateduser']);
@@ -91,23 +113,11 @@ class UserModelTest extends CIUnitTestCase
     public function testDeleteUser()
     {
         $model = new UserModel();
-        $data = [
-            'username'=>'testuser',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $model->createUser($data); // Crée l'utilisateur pour le test
 
-        $user = $model->getUserById(1);
-        $model->deleteUser($user['id']);
+        $model->deleteUser(1);
 
         // Vérifiez si la colonne `deleted_at` est non-nulle après la suppression, si vous utilisez le soft delete
-        $this->seeInDatabase('user', ['id' => $user['id'], 'deleted_at !=' => null]);
+        $this->seeInDatabase('user', ['id' => 1, 'deleted_at !=' => null]);
 
     }
 
@@ -115,19 +125,19 @@ class UserModelTest extends CIUnitTestCase
     {
         $model = new UserModel();
         $data = [
-            'username'=>'testuser',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
+            'username'=>'testsuser',
+            'firstname'=>'testsuser',
+            'lastname'=>'testsuser',
             'phone'=>'+66666666',
             'dob'=> 1998-07-12,
-            'email' => 'testuser@example.com',
-            'password' => 'password123',
+            'email' => 'testuserz@example.com',
+            'password' => 'passwordz123',
             'id_permission'=> 1,
         ];
         $model->createUser($data); // Crée l'utilisateur pour le test
 
         // Test de la connexion avec des informations valides
-        $user = $model->verifyLogin('testuser@example.com', 'password123');
+        $user = $model->verifyLogin('testuserz@example.com', 'passwordz123');
         $this->assertNotFalse($user); // Vérifie que l'utilisateur a été retourné
 
         // Test de la connexion avec des informations invalides
@@ -138,48 +148,14 @@ class UserModelTest extends CIUnitTestCase
     public function testGetAllUsers()
     {
         $model = new UserModel();
-        $data1 = [
-            'username'=>'testuser1',
-            'firstname'=>'testuser1',
-            'lastname'=>'testuser1',
-            'phone'=>'+666666656',
-            'dob'=> 1998-07-13,
-            'email' => 'testuser1@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $data2 = [
-            'username'=>'testuser2',
-            'firstname'=>'testuser2',
-            'lastname'=>'testuser2',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser2@example.com',
-            'password' => 'password456',
-            'id_permission'=> 1,
-        ];
-
-        $model->createUser($data1);
-        $model->createUser($data2);
 
         $users = $model->getAllUsers();
-        $this->assertCount(2, $users); // Vérifie qu'il y a 2 utilisateurs dans la base de données
+        $this->assertCount(3, $users); // Vérifie qu'il y a 2 utilisateurs dans la base de données
     }
 
     public function testGetUserById()
     {
         $model = new UserModel();
-        $data = [
-            'username'=>'testuser',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $model->createUser($data); // Crée l'utilisateur
 
         $user = $model->getUserById(1); // Utilisez cet ID au lieu de supposer que c'est 1
         $this->assertEquals('testuser', $user['username']); // Vérification
@@ -189,29 +165,6 @@ class UserModelTest extends CIUnitTestCase
     public function testCountUserByPermission()
     {
         $model = new UserModel();
-        $data1 = [
-            'username'=>'testuser1',
-            'firstname'=>'testuser1',
-            'lastname'=>'testuser1',
-            'phone'=>'+666666656',
-            'dob'=> 1998-07-13,
-            'email' => 'testuser1@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $data2 = [
-            'username'=>'testuser2',
-            'firstname'=>'testuser2',
-            'lastname'=>'testuser2',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser2@example.com',
-            'password' => 'password456',
-            'id_permission'=> 2,
-        ];
-
-        $model->createUser($data1);
-        $model->createUser($data2);
 
         $result = $model->countUserByPermission();
         $this->assertCount(2, $result); // Vérifie qu'il y a 2 permissions dans le résultat
@@ -220,105 +173,38 @@ class UserModelTest extends CIUnitTestCase
     public function testActivateUser()
     {
         $model = new UserModel();
-        $data = [
-            'username'=>'testuser',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $model->createUser($data); // Crée l'utilisateur pour le test
 
-        $userId = $model->insertID();
-        $model->deleteUser($userId); // Supprime l'utilisateur
+        $model->deleteUser(1); // Supprime l'utilisateur
 
         // Vérifie que 'deleted_at' a bien été rempli (soft delete)
-        $this->seeInDatabase('user', ['id' => $userId, 'deleted_at !=' => null]);
+        $this->seeInDatabase('user', ['id' => 1, 'deleted_at !=' => null]);
 
         // Réactive l'utilisateur (annule le soft delete)
-        $model->activateUser($userId);
+        $model->activateUser(1);
 
         // Vérifie que l'utilisateur est à nouveau actif
-        $this->seeInDatabase('user', ['id' => $userId, 'deleted_at' => null]);
+        $this->seeInDatabase('user', ['id' => 1, 'deleted_at' => null]);
     }
 
     public function testGetPermissions() {
         $model = new UserModel();
 
-        //Création de Users
-        $user1 = [
-            'username'=>'testuser1',
-            'firstname'=>'testuser1',
-            'lastname'=>'testuser1',
-            'phone'=>'+666666656',
-            'dob'=> 1998-07-13,
-            'email' => 'testuser1@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $user2 = [
-            'username'=>'testuser2',
-            'firstname'=>'testuser2',
-            'lastname'=>'testuser2',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser2@example.com',
-            'password' => 'password456',
-            'id_permission'=> 2,
-        ];
-        $model->createUser($user1);
-        $model->createUser($user2);
 
         $result = $model->getPermissions();
         $this->assertIsArray($result);
 
-        $this->assertEquals('testuser1', $result[0]['username']);
+        $this->assertEquals('testuser', $result[0]['username']);
         $this->assertEquals('Administrateur', $result[0]['permission_name']);
 
+        $this->assertEquals('testuser3', $result[1]['username']);
+        $this->assertEquals('Administrateur', $result[1]['permission_name']);
 
-        $this->assertEquals('testuser2', $result[1]['username']);
-        $this->assertEquals('Collaborateur', $result[1]['permission_name']);
+        $this->assertEquals('testuser2', $result[2]['username']);
+        $this->assertEquals('Collaborateur', $result[2]['permission_name']);
     }
 
     public function testGetPaginatedUser() {
         $model = new UserModel();
-        //Création d'utilisateursS
-        $data = [
-            'username'=>'testuser',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $data2 = [
-            'username'=>'testuser2',
-            'firstname'=>'testuser2',
-            'lastname'=>'testuser2',
-            'phone'=>'+666666662',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser2@example.com',
-            'password' => 'password1232',
-            'id_permission'=> 1,
-        ];
-        $data3 = [
-            'username'=>'testuser3',
-            'firstname'=>'testuser3',
-            'lastname'=>'testuser3',
-            'phone'=>'+666666663',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser3@example.com',
-            'password' => 'password1233',
-            'id_permission'=> 1,
-        ];
-        $model->createUser($data);
-        $model->createUser($data2);
-        $model->createUser($data3);
 
         $result = $model->getPaginatedUser(0, 3, '', 'username', 'ASC');
         $this->assertIsArray($result);
@@ -328,41 +214,6 @@ class UserModelTest extends CIUnitTestCase
     public function testGetTotalUser() {
         $model = new UserModel();
 
-        //Création d'utilisateursS
-        $data = [
-            'username'=>'testuser',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $data2 = [
-            'username'=>'testuser2',
-            'firstname'=>'testuser2',
-            'lastname'=>'testuser2',
-            'phone'=>'+666666662',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser2@example.com',
-            'password' => 'password1232',
-            'id_permission'=> 1,
-        ];
-        $data3 = [
-            'username'=>'testuser3',
-            'firstname'=>'testuser3',
-            'lastname'=>'testuser3',
-            'phone'=>'+666666663',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser3@example.com',
-            'password' => 'password1233',
-            'id_permission'=> 1,
-        ];
-        $model->createUser($data);
-        $model->createUser($data2);
-        $model->createUser($data3);
-
         $result = $model->getTotalUser();
         $this->assertEquals(3, $result);
     }
@@ -370,33 +221,13 @@ class UserModelTest extends CIUnitTestCase
     public function testGetFilteredUser() {
         $model = new UserModel;
 
-        $data = [
-            'username'=>'testuser',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
-            'phone'=>'+66666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser@example.com',
-            'password' => 'password123',
-            'id_permission'=> 1,
-        ];
-        $data2 = [
-            'username'=>'testuser2',
-            'firstname'=>'testuser',
-            'lastname'=>'testuser',
-            'phone'=>'766666666',
-            'dob'=> 1998-07-12,
-            'email' => 'testuser2@example.com',
-            'password' => 'password654',
-            'id_permission'=> 1,
-        ];
-
-        $model->createUser($data);
-        $model->createUser($data2);
         $filter = $model->getFilteredUser('testuser2');
         $this->assertEquals(1, $filter);
 
+        $filter = $model->getFilteredUser('testuser3');
+        $this->assertEquals(1, $filter);
+
         $filter = $model->getFilteredUser('testuser');
-        $this->assertEquals(2, $filter);
+        $this->assertEquals(3, $filter);
     }
 }
