@@ -26,27 +26,27 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Création d'un Tarif</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form method="POST" action="<?= base_url('admin/showing/createprice'); ?>" id="formModal2">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">
-                                Nom du Tarif
-                            </label>
-                            <input type="text" name="name" class="form-control" value="" placeholder="Entrez le nom" >
+            <form method="POST" action="<?= base_url('admin/showing/createprice'); ?>" id="formModal2">
+                <div class="modal-body">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">
+                                    Nom du Tarif
+                                </label>
+                                <input type="text" name="name" class="form-control" value="" placeholder="Entrez le nom" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="amount" class="form-label">
+                                    Montant (en Euros)
+                                </label>
+                                <input type="text" name="amount" class="form-control" value="" placeholder="Entrez le montant" >
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="amount" class="form-label">
-                                Montant (en Euros)
-                            </label>
-                            <input type="text" name="amount" class="form-control" value="" placeholder="Entrez le montant" >
-                        </div>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="submit" class="btn btn-primary">Créer</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                </div>
             </form>
         </div>
     </div>
@@ -60,28 +60,28 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Modification d'un Tarif</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form method="POST" action="<?= base_url('admin/showing/updateprice'); ?>" id="formModal">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">
-                                Nom du tarif
-                            </label>
-                            <input type="text" name="name" class="form-control" value="" placeholder="Entrez le nom" >
-                            <input type="hidden" value="" name="id">
+            <form method="POST" action="<?= base_url('admin/showing/updateprice'); ?>" id="formModal">
+                <div class="modal-body">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">
+                                    Nom du tarif
+                                </label>
+                                <input type="text" name="name" class="form-control" value="" placeholder="Entrez le nom" >
+                                <input type="hidden" value="" name="id">
+                            </div>
+                            <div class="mb-3">
+                                <label for="amount" class="form-label">
+                                    Montant (en Euros)
+                                </label>
+                                <input type="text" name="amount" class="form-control" value="" placeholder="Entrez le montant" >
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="amount" class="form-label">
-                                Montant (en Euros)
-                            </label>
-                            <input type="text" name="amount" class="form-control" value="" placeholder="Entrez le montant" >
-                        </div>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="submit" class="btn btn-primary">Modifier</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                </div>
             </form>
         </div>
     </div>
@@ -114,7 +114,7 @@
                 {
                     data : 'amount',
                     render : function(data) {
-                        return `<span class='amount-price'>${data}</span>`;
+                        return `<span class='amount-price'>${data} €</span>`;
                     }
                 },
                 {
@@ -177,11 +177,13 @@
         $('#formModal2').on('submit', function(event){
             event.preventDefault();
             let price_name = $('.createmodal input[name="name"]').val();
+            let price_amount = $('.createmodal input[name="amount"]').val();
             $.ajax({
                 type : "POST",
                 url: $(this).attr("action"),
                 data : {
                     name : price_name,
+                    amount : price_amount,
                 },
                 success : function(data) {
                     location.reload();

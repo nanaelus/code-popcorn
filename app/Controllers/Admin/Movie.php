@@ -195,6 +195,6 @@ class Movie extends BaseController
                 $this->error('Erreur lors de la suppression de la catégorie');
             }
         }
-        return $this->redirect('admin/movie/category');
+        $this->redirect('admin/movie/category');
     }
 }
