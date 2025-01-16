@@ -75,6 +75,15 @@ class Showing extends BaseController
         return json_encode($data);
     }
 
+    public function getdeletetypeshowing($id) {
+        if(model('TypeShowingModel')->deleteTypeShowing($id)) {
+            $this->success('Type supprimé!');
+        } else {
+            $this->error('Une erreur est survenue lors de la suppression du type');
+        }
+        $this->redirect('/admin/showing/typeshowing');
+    }
+
     public function getprice() {
         return $this->view('admin/price', ['prices' => model('PriceModel')->getAllPrices()], true);
     }
@@ -96,5 +105,14 @@ class Showing extends BaseController
             $this->error('Erreur lors de la mise à jour du tarif');
         }
         return json_encode($data);
+    }
+
+    public function getdeleteprice($id) {
+        if(model('PriceModel')->deletePrice($id)) {
+            $this->success('Tarif supprimé avec succès');
+        } else {
+            $this->error('Une erreur est survenue lors de la suppression du tarif');
+        }
+        $this->redirect('/admin/showing/price');
     }
 }
