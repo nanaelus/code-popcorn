@@ -44,6 +44,12 @@
         "url": "admin/showing",
         "perm": "none",
         "icon": "<i class=\"nav-icon fa-regular fa-clock\"></i>"
+      },
+      "typeshowing": {
+        "title": "Types de Séances",
+        "url": "admin/showing/typeshowing",
+        "perm": "none",
+        "icon": "<i class=\"nav-icon fa-regular fa-clock\"></i>"
       }
     }
   },

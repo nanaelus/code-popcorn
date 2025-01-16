@@ -51,11 +51,50 @@ class Showing extends BaseController
         $this->redirect('/admin/showing');
     }
 
-    public function getprice() {
-        //
+    public function gettypeshowing() {
+        $allTypesShowing = model('TypeShowingModel')->getAllTypeShowing();
+        return $this->view('admin/showing/typeshowing', ['allTypesShowing' => $allTypesShowing], true);
     }
 
-    public function gettypeshowing() {
-        //
+    public function postcreatetypeshowing() {
+        $data = $this->request->getPost();
+        if(model('TypeShowingModel')->createTypeShowing($data)) {
+            return $this->success('Type créé');
+        } else {
+            $this->error('Une erreur est survenue lors de la création du type');
+        }
+    }
+
+    public function postupdatetypeshowing() {
+        $data = $this->request->getPost();
+        if(model('TypeShowingModel')->updateTypeShowing($data['id'], $data)) {
+            $this->success('Type mise à jour');
+        } else {
+            $this->error('Une erreur est survenue lors de la mise à jour du type');
+        }
+        return json_encode($data);
+    }
+
+    public function getprice() {
+        return $this->view('admin/price', ['prices' => model('PriceModel')->getAllPrices()], true);
+    }
+
+    public function postcreateprice() {
+        $data = $this->request->getPost();
+        if(model('PriceModel')->createPrice($data)) {
+            $this->success('Tarif créé');
+        } else {
+            $this->error('Une erreur est survenue lors de la création du tarif');
+        }
+    }
+
+    public function postupdateprice() {
+        $data = $this->request->getPost();
+        if(model('PriceModel')->updatePrice($data['id'], $data)) {
+            $this->success('Tarif mise à jour');
+        } else {
+            $this->error('Erreur lors de la mise à jour du tarif');
+        }
+        return json_encode($data);
     }
 }
