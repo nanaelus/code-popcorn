@@ -69,4 +69,8 @@ class TypeShowingModel extends Model
     public function updateTypeShowing($id, $data) {
        return $this->update($id, $data);
     }
+
+    public function deleteTypeShowing($id) {
+       return $this->delete($id);
+    }
 }

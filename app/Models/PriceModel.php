@@ -32,6 +32,10 @@ class PriceModel extends Model
         return $this->update($id, $data);
     }
 
+    public function deletePrice($id) {
+        return $this->delete($id);
+    }
+
     public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection)
     {
         $builder = $this->builder();
