@@ -50,6 +50,12 @@
         "url": "admin/showing/typeshowing",
         "perm": "none",
         "icon": "<i class=\"nav-icon fa-regular fa-clock\"></i>"
+      },
+      "price": {
+        "title": "Tarifs",
+        "url": "admin/showing/price",
+        "perm": "none",
+        "icon": "<i class=\"nav-icon fa-solid fa-euro-sign\"></i>"
       }
     }
   },
