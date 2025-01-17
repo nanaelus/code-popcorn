@@ -122,20 +122,20 @@ class User extends BaseController
                 $this->error($error);
             }
         }
-
         // Redirection vers la page des utilisateurs après le traitement
         return $this->redirect("/admin/user");
     }
 
-
-
-
     public function getdeactivate($id){
         $um = Model('UserModel');
-        if ($um->deleteUser($id)) {
-            $this->success("Utilisateur désactivé");
+        if($id != 1) {
+            if ($um->deleteUser($id)) {
+                $this->success("Utilisateur désactivé");
+            } else {
+                $this->error("Utilisateur non désactivé");
+            }
         } else {
-            $this->error("Utilisateur non désactivé");
+            $this->error('On ne désactive pas l\'admin, c\'est l\'admin qui te désactive!');
         }
         $this->redirect('/admin/user');
     }

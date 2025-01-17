@@ -75,7 +75,9 @@ class UserModel extends Model
     }
     public function deleteUser($id)
     {
-        return $this->delete($id);
+        if($id != 1) {
+            return $this->delete($id);
+        }
     }
 
     public function verifyLogin($email, $password)
