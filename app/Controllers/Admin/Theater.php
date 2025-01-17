@@ -161,8 +161,11 @@ class Theater extends BaseController
         $theaterId = $this->request->getPost('theater_id');
         $theater = model('TheaterModel')->getTheaterById($theaterId);
         $this->session->set('theater', $theater);
-        $redirectUrl = $this->session->get('redirect_url') ?? '/';
-        $this->session->remove('redirect_url');
-        $this->redirect($redirectUrl);
+
+        // Récupérer l'URL de la page précédente
+        $redirectUrl = $this->request->getServer('HTTP_REFERER') ?? '/';
+
+        // Rediriger vers la page précédente ou vers la page d'accueil par défaut
+        return $this->response->redirect($redirectUrl);
     }
 }

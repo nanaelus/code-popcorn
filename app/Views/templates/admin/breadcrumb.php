@@ -4,9 +4,9 @@
             <i class="icon icon-lg fa-solid fa-bars"></i>
         </button>
         <ul class="header-nav">
-            <form class="d-flex justify-content-center" id="formTheater" method="POST" action="<?= base_url("/admin/theater/theater"); ?>">
+            <form class="d-flex justify-content-center" id="formTheaterBack" method="POST" action="<?= base_url("/admin/theater/theater"); ?>">
             <li class="nav-item py-1 theater-id">
-                <select class="form-select-sm me-2" name="theater_id" id="theater_id">
+                <select class="form-select-sm me-2" name="theater_id" id="theater_id_back">
                     <option>Aucun Cinéma Sélectionné</option>
                     <?php foreach($theaters as $t){ ?>
                         <option value="<?= $t['id']; ?>" <?= isset($theater) && $theater['id']==$t['id'] ? "selected" : ""; ?>><?= $t['name']; ?></option>
